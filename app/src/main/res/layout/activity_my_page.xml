@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.myPage.MyPageActivity">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true">
+
+        <Button
+                android:id="@+id/myPageActivity_btn_myUpload"
+                android:text="내가 업로드한 패션"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/myPageActivity_btn_likeFashion"
+                android:text="내가 좋아요 누른 패션"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <Button
+                android:id="@+id/myPageActivity_btn_dislikeFashion"
+                android:text="내가 싫어요 누른 패션"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/myPageActivity_fab_add"
+            android:layout_margin="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/baseline_add_white_18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+</RelativeLayout>
