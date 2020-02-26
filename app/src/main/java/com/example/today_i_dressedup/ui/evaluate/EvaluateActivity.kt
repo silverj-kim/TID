@@ -8,12 +8,16 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.today_i_dressedup.R
 import com.example.today_i_dressedup.data.Spot
+import com.example.today_i_dressedup.data.repository.UserRepository
+import com.example.today_i_dressedup.databinding.ActivityEvaluateBinding
 import com.example.today_i_dressedup.ui.myPage.MyPageActivity
 import com.yuyakaido.android.cardstackview.*
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_evaluate.*
 
 class EvaluateActivity : AppCompatActivity() {
 
@@ -23,15 +27,20 @@ class EvaluateActivity : AppCompatActivity() {
     private lateinit var iv_addPhoto: ImageView
     private lateinit var iv_myPage: ImageView
 
-
+    private lateinit var evalueateViewModel: EvalueateViewModel
+    private lateinit var factory: EvaluateViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_evaluate)
         initialize()
         setupButton()
     }
 
     private fun initialize() {
+        factory = EvaluateViewModelFactory(UserRepository.getInstance())
+        evalueateViewModel = ViewModelProviders.of(this, factory).get(EvalueateViewModel::class.java)
+        val binding: ActivityEvaluateBinding = DataBindingUtil.setContentView(this, R.layout.activity_evaluate)
+        binding.viewmodel = evalueateViewModel
         iv_addPhoto = evaluateActivity_iv_addPhoto
         iv_myPage = evaluateActivity_iv_myPage
         iv_myPage.setOnClickListener {
