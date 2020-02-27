@@ -1,12 +1,15 @@
 package com.example.today_i_dressedup.data.firebase
 
+import android.net.Uri
 import android.util.Log
 import com.example.today_i_dressedup.data.Post
 import com.example.today_i_dressedup.data.User
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.Completable
+import java.io.File
 
 class FirebaseSource {
 
@@ -69,7 +72,23 @@ class FirebaseSource {
             .addOnFailureListener { Log.d("FirebaseSource", "insertUserToDB Fail") }
     }
 
-    fun insertPostToDB(userId: String){
+    fun uploadPost(filePath: String){
+        var file = Uri.fromFile(File(filePath))
+        val riversRef = firebaseStorage.reference.child("images/${file.lastPathSegment}")
+        val uploadTask = riversRef.putFile(file)
+        uploadTask.addOnFailureListener {
+            // Handle unsuccessful uploads
+        }.addOnSuccessListener {
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
+            riversRef.downloadUrl.addOnSuccessListener {
+                Log.d("FirebaseSource", it.toString())
+                val post = Post(currentUser()!!.uid, it.toString())
+                firebaseFirestore
+                    .collection("posts")
+                    .add(post)
+                    .addOnSuccessListener {   } }
+        }
     }
 
     fun logout() = firebaseAuth.signOut()

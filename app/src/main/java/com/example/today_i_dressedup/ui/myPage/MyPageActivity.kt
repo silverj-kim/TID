@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.example.today_i_dressedup.R
+import com.example.today_i_dressedup.data.repository.PostRepository
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_my_page.*
 
@@ -19,6 +22,8 @@ class MyPageActivity : AppCompatActivity() {
     private lateinit var btn_dislikeFashion: Button
     private lateinit var fab_add: FloatingActionButton
 
+    private lateinit var myPageViewModel: MyPageViewModel
+    private lateinit var factory: MyPageViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
@@ -26,6 +31,8 @@ class MyPageActivity : AppCompatActivity() {
     }
 
     fun initView() {
+        factory = MyPageViewModelFactory(PostRepository.getInstance())
+        myPageViewModel = ViewModelProviders.of(this, factory).get(MyPageViewModel::class.java)
         btn_myUpload = myPageActivity_btn_myUpload
         btn_likeFashion = myPageActivity_btn_likeFashion
         btn_dislikeFashion = myPageActivity_btn_dislikeFashion
@@ -55,9 +62,10 @@ class MyPageActivity : AppCompatActivity() {
             // Get a list of picked images
             val images = ImagePicker.getImages(data)
             for (image in images) {
+                Log.d("picked", image.path)
+                myPageViewModel.uploadPostToServer(image.path)
                 //memoId는 MemoListActivity에서 memo를 db에 저장한 후 리턴되는 id값을 이용해서 다시 세팅함.
             }
-            Log.d("picked", images.toString())
         }
     }
 }

@@ -15,8 +15,8 @@ class PostRepository (private val firebase: FirebaseSource) {
             }
     }
 
-    fun uploadPost(){
-
+    fun uploadPost(filePath: String){
+        firebase.uploadPost(filePath)
     }
 
     fun loadAllPost(){

@@ -5,11 +5,10 @@ import com.example.today_i_dressedup.data.Post
 import com.example.today_i_dressedup.data.firebase.FirebaseSource
 import com.example.today_i_dressedup.data.repository.PostRepository
 
-class PostViewModel: ViewModel() {
-    private val postRepository = PostRepository(FirebaseSource.getInstance())
+class MyPageViewModel(private val postRepository: PostRepository): ViewModel() {
 
-    fun uploadPostToServer(post: Post){
-        postRepository.uploadPost()
+    fun uploadPostToServer(filePath: String){
+        postRepository.uploadPost(filePath)
     }
 
     fun getPostsILiked(myId: Long){
