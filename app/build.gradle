@@ -13,7 +13,7 @@ android {
     }
     defaultConfig {
         applicationId "com.example.today_i_dressedup"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -48,9 +48,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 
     //firebase
-    implementation 'com.google.firebase:firebase-database:16.0.4'
-    implementation 'com.google.firebase:firebase-storage:16.0.4'
-    implementation 'com.google.firebase:firebase-auth:16.0.5'
+//    implementation 'com.google.firebase:firebase-database:16.0.4'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-firestore:21.4.0'
 
     //rxjava
     implementation "io.reactivex.rxjava2:rxjava:2.2.5"
