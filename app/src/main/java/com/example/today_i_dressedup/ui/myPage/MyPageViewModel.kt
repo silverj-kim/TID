@@ -11,15 +11,15 @@ class MyPageViewModel(private val postRepository: PostRepository): ViewModel() {
         postRepository.uploadPost(filePath)
     }
 
-    fun getPostsILiked(myId: Long){
+    fun loadPostsILiked(){
 
     }
 
-    fun getPostsIDisliked(myId: Long){
+    fun loadPostsIDisliked(){
 
     }
 
-    fun getMyPosts(myId: Long){
-
+    fun loadMyPosts(){
+        postRepository.loadMyPost()
     }
 }

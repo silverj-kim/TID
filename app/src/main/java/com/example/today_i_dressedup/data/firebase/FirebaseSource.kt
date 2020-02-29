@@ -2,13 +2,15 @@ package com.example.today_i_dressedup.data.firebase
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.today_i_dressedup.data.Post
 import com.example.today_i_dressedup.data.User
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.Completable
+import io.reactivex.Observable
 import java.io.File
 
 class FirebaseSource {
@@ -34,7 +36,7 @@ class FirebaseSource {
         FirebaseFirestore.getInstance()
     }
 
-    private val firebaseStorage: FirebaseStorage by lazy{
+    private val firebaseStorage: FirebaseStorage by lazy {
         FirebaseStorage.getInstance()
     }
 
@@ -72,7 +74,7 @@ class FirebaseSource {
             .addOnFailureListener { Log.d("FirebaseSource", "insertUserToDB Fail") }
     }
 
-    fun uploadPost(filePath: String){
+    fun uploadPost(filePath: String) {
         var file = Uri.fromFile(File(filePath))
         val riversRef = firebaseStorage.reference.child("images/${file.lastPathSegment}")
         val uploadTask = riversRef.putFile(file)
@@ -87,9 +89,58 @@ class FirebaseSource {
                 firebaseFirestore
                     .collection("posts")
                     .add(post)
-                    .addOnSuccessListener {   } }
+                    .addOnSuccessListener { }
+            }
         }
     }
+
+    fun loadAllPosts() = Observable.create<List<Post>> { emitter ->
+        firebaseFirestore
+            .collection("posts")
+            .get()
+            .addOnSuccessListener { documnets ->
+                emitter.onNext(documnets.toObjects(Post::class.java))
+            }
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    emitter.onComplete()
+                } else {
+                    emitter.onError(it.exception!!)
+                }
+            }
+    }
+
+    fun loadMyPost() = Observable.create<List<Post>> { emitter ->
+        firebaseFirestore
+            .collection("posts")
+            .whereEqualTo("userId", currentUser()!!.uid)
+            .get()
+            .addOnSuccessListener {documents ->
+                emitter.onNext(documents.toObjects(Post::class.java))
+            }
+            .addOnCompleteListener {
+                if(it.isSuccessful){
+                    emitter.onComplete()
+                }else{
+                    emitter.onError(it.exception!!)
+                }
+            }
+    }
+
+//    fun loadMyPost(): LiveData<List<Post>> {
+//        var postList: MutableLiveData<List<Post>> = MutableLiveData()
+//        firebaseFirestore
+//            .collection("posts")
+//            .whereEqualTo("userId", currentUser()!!.uid)
+//            .get()
+//            .addOnSuccessListener { documents ->
+//                var list: List<Post>
+//                for (document in documents) {
+//                }
+//            }
+//            .addOnFailureListener { }
+//        return postList
+//    }
 
     fun logout() = firebaseAuth.signOut()
 

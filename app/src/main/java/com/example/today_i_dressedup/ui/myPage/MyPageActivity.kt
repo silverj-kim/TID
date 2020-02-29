@@ -34,6 +34,9 @@ class MyPageActivity : AppCompatActivity() {
         factory = MyPageViewModelFactory(PostRepository.getInstance())
         myPageViewModel = ViewModelProviders.of(this, factory).get(MyPageViewModel::class.java)
         btn_myUpload = myPageActivity_btn_myUpload
+        btn_myUpload.setOnClickListener {
+            myPageViewModel.loadMyPosts()
+        }
         btn_likeFashion = myPageActivity_btn_likeFashion
         btn_dislikeFashion = myPageActivity_btn_dislikeFashion
         fab_add = myPageActivity_fab_add

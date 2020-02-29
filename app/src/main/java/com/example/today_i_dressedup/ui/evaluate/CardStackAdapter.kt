@@ -4,14 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.today_i_dressedup.R
-import com.example.today_i_dressedup.data.Spot
+import com.example.today_i_dressedup.data.Post
 
-class CardStackAdapter(private var spots: List<Spot> = emptyList()) :
+class CardStackAdapter(private var posts: List<Post> = emptyList()) :
     RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,34 +25,31 @@ class CardStackAdapter(private var spots: List<Spot> = emptyList()) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val spot = spots[position]
-        holder.bind(spot)
+        val post = posts[position]
+        holder.bind(post)
     }
 
     override fun getItemCount(): Int {
-        return spots.size
+        return posts.size
     }
 
-    fun setSpots(spots: List<Spot>) {
-        this.spots = spots
+    fun setSpots(posts: List<Post>) {
+        this.posts = posts
+        notifyDataSetChanged()
     }
 
-    fun getSpots(): List<Spot> {
-        return spots
+    fun getSpots(): List<Post> {
+        return posts
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.item_name)
-        var city: TextView = view.findViewById(R.id.item_city)
         var image: ImageView = view.findViewById(R.id.item_image)
 
-        fun bind(spot: Spot) {
-            name.text = "${spot.id}. ${spot.name}"
-            city.text = spot.city
+        fun bind(post: Post) {
             Glide.with(image)
-                .load(spot.url)
+                .load(post.imgUrl)
                 .into(image)
-            itemView.setOnClickListener { Toast.makeText(itemView.context, spot.name, Toast.LENGTH_SHORT).show() }
+            itemView.setOnClickListener { Toast.makeText(itemView.context, post.userId, Toast.LENGTH_SHORT).show() }
         }
     }
 

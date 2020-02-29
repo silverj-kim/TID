@@ -19,9 +19,9 @@ class PostRepository (private val firebase: FirebaseSource) {
         firebase.uploadPost(filePath)
     }
 
-    fun loadAllPost(){
+    fun loadMyPost() = firebase.loadMyPost()
 
-    }
+    fun loadAllPost() = firebase.loadAllPosts()
 
     fun currentUser() = firebase.currentUser()
 
