@@ -3,8 +3,11 @@ package com.example.today_i_dressedup.ui.postList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.today_i_dressedup.R
+import com.example.today_i_dressedup.data.Post
 
 class PostActivity : AppCompatActivity() {
+
+    private lateinit var post: Post
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

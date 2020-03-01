@@ -1,5 +1,6 @@
 package com.example.today_i_dressedup.ui.evaluate
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.today_i_dressedup.R
 import com.example.today_i_dressedup.data.Post
+import com.example.today_i_dressedup.ui.postDetail.PostDetailActivity
+import com.example.today_i_dressedup.ui.postList.PostActivity
 
 class CardStackAdapter(private var posts: List<Post> = emptyList()) :
     RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
@@ -33,23 +36,26 @@ class CardStackAdapter(private var posts: List<Post> = emptyList()) :
         return posts.size
     }
 
-    fun setSpots(posts: List<Post>) {
+    fun setPosts(posts: List<Post>) {
         this.posts = posts
         notifyDataSetChanged()
     }
 
-    fun getSpots(): List<Post> {
+    fun getPosts(): List<Post> {
         return posts
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var image: ImageView = view.findViewById(R.id.item_image)
-
         fun bind(post: Post) {
             Glide.with(image)
                 .load(post.imgUrl)
                 .into(image)
-            itemView.setOnClickListener { Toast.makeText(itemView.context, post.userId, Toast.LENGTH_SHORT).show() }
+            itemView.setOnClickListener {
+                val intent = Intent(itemView.context, PostDetailActivity::class.java)
+                intent.putExtra("post", post)
+                itemView.context.startActivity(intent)
+            }
         }
     }
 

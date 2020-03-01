@@ -2,6 +2,7 @@ package com.example.today_i_dressedup.ui.evaluate
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -22,11 +23,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_evaluate.*
 
-class EvaluateActivity : AppCompatActivity() {
+class EvaluateActivity : AppCompatActivity(), CardStackListener {
 
     private val cardStackView by lazy { findViewById<CardStackView>(R.id.cardStackView) }
-    private val manager by lazy { CardStackLayoutManager(this) }
-    private lateinit var adapter: CardStackAdapter
+    private val manager by lazy { CardStackLayoutManager(this, this) }
+    private val adapter by lazy { CardStackAdapter() }
     private lateinit var iv_addPhoto: ImageView
     private lateinit var iv_myPage: ImageView
 
@@ -64,7 +65,6 @@ class EvaluateActivity : AppCompatActivity() {
         manager.setCanScrollVertical(true)
         manager.setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
         manager.setOverlayInterpolator(LinearInterpolator())
-        adapter = CardStackAdapter()
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         loadAllPosts()
@@ -73,6 +73,31 @@ class EvaluateActivity : AppCompatActivity() {
                 supportsChangeAnimations = false
             }
         }
+    }
+
+    override fun onCardSwiped(direction: Direction?) {
+        //현재 포지션의 이전 포스트가 스와이프 된 것이기 때문에 -1 포지션의 id를 인자로 넘겨줌.
+        val postId = adapter.getPosts()[manager.topPosition - 1].id
+        when (direction) {
+            Direction.Right -> evalueateViewModel.likePost(postId)
+
+            Direction.Left -> evalueateViewModel.dislikePost(postId)
+        }
+    }
+
+    override fun onCardDisappeared(view: View?, position: Int) {
+    }
+
+    override fun onCardDragging(direction: Direction?, ratio: Float) {
+    }
+
+    override fun onCardCanceled() {
+    }
+
+    override fun onCardAppeared(view: View?, position: Int) {
+    }
+
+    override fun onCardRewound() {
     }
 
     private fun setupButton() {
@@ -117,7 +142,7 @@ class EvaluateActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                adapter.setSpots(it)
+                adapter.setPosts(it)
             })
 
         disposables.add(disposable)

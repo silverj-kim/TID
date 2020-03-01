@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import com.example.today_i_dressedup.data.Post
 import com.example.today_i_dressedup.data.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.Completable
@@ -14,6 +16,18 @@ import io.reactivex.Observable
 import java.io.File
 
 class FirebaseSource {
+
+    private val firebaseAuth: FirebaseAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
+
+    private val firebaseFirestore: FirebaseFirestore by lazy {
+        FirebaseFirestore.getInstance()
+    }
+
+    private val firebaseStorage: FirebaseStorage by lazy {
+        FirebaseStorage.getInstance()
+    }
 
     companion object {
         @Volatile
@@ -26,18 +40,6 @@ class FirebaseSource {
                     instance = it
                 }
             }
-    }
-
-    private val firebaseAuth: FirebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
-
-    private val firebaseFirestore: FirebaseFirestore by lazy {
-        FirebaseFirestore.getInstance()
-    }
-
-    private val firebaseStorage: FirebaseStorage by lazy {
-        FirebaseStorage.getInstance()
     }
 
     fun login(email: String, password: String) = Completable.create { emitter ->
@@ -85,7 +87,7 @@ class FirebaseSource {
             // ...
             riversRef.downloadUrl.addOnSuccessListener {
                 Log.d("FirebaseSource", it.toString())
-                val post = Post(currentUser()!!.uid, it.toString())
+                val post = Post(userId = currentUser()!!.uid, imgUrl = it.toString())
                 firebaseFirestore
                     .collection("posts")
                     .add(post)
@@ -99,7 +101,13 @@ class FirebaseSource {
             .collection("posts")
             .get()
             .addOnSuccessListener { documnets ->
-                emitter.onNext(documnets.toObjects(Post::class.java))
+                val list: ArrayList<Post> = ArrayList()
+                for(documnet in documnets){
+                    val post = documnet.toObject(Post::class.java)
+                    post.id = documnet.id
+                    list.add(post)
+                }
+                emitter.onNext(list)
             }
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -127,23 +135,42 @@ class FirebaseSource {
             }
     }
 
-//    fun loadMyPost(): LiveData<List<Post>> {
-//        var postList: MutableLiveData<List<Post>> = MutableLiveData()
-//        firebaseFirestore
-//            .collection("posts")
-//            .whereEqualTo("userId", currentUser()!!.uid)
-//            .get()
-//            .addOnSuccessListener { documents ->
-//                var list: List<Post>
-//                for (document in documents) {
-//                }
-//            }
-//            .addOnFailureListener { }
-//        return postList
-//    }
-
     fun logout() = firebaseAuth.signOut()
 
     fun currentUser() = firebaseAuth.currentUser
+
+    fun likePost(postId: String) {
+        firebaseFirestore
+            .collection("posts")
+            .document(postId)
+            .get()
+            .addOnSuccessListener { document ->
+                firebaseFirestore.collection("posts")
+                    .document(postId)
+                    .update("numOfLike", document.get("numOfLike") as Long + 1)
+            }
+
+        firebaseFirestore
+            .collection("users")
+            .document(currentUser()!!.uid)
+            .update("like_post_ids", FieldValue.arrayUnion(postId)) //like_post_ids배열에 좋아요한 post의 id를 추가함
+    }
+
+    fun dislikePost(postId: String) {
+        firebaseFirestore
+            .collection("posts")
+            .document(postId)
+            .get()
+            .addOnSuccessListener { document ->
+                firebaseFirestore.collection("posts")
+                    .document(postId)
+                    .update("numOfDislike", document.get("numOfDislike") as Long + 1)
+            }
+
+        firebaseFirestore
+            .collection("users")
+            .document(currentUser()!!.uid)
+            .update("dislike_post_ids", FieldValue.arrayUnion(postId)) //dislike_post_ids배열에 싫어요한 post의 id를 추가함
+    }
 
 }

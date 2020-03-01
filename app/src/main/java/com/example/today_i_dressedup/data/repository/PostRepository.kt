@@ -19,6 +19,7 @@ class PostRepository (private val firebase: FirebaseSource) {
         firebase.uploadPost(filePath)
     }
 
+
     fun loadMyPost() = firebase.loadMyPost()
 
     fun loadAllPost() = firebase.loadAllPosts()
@@ -26,4 +27,12 @@ class PostRepository (private val firebase: FirebaseSource) {
     fun currentUser() = firebase.currentUser()
 
     fun logout() = firebase.logout()
+
+    fun dislikePost(postId: String) {
+        firebase.dislikePost(postId)
+    }
+
+    fun likePost(postId: String) {
+        firebase.likePost(postId)
+    }
 }

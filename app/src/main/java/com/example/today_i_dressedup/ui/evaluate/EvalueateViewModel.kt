@@ -18,4 +18,12 @@ class EvalueateViewModel(private val userRepository: UserRepository, private val
     }
 
     fun loadAllPosts() = postRepository.loadAllPost()
+
+    fun likePost(postId: String){
+        postRepository.likePost(postId)
+    }
+
+    fun dislikePost(postId: String){
+        postRepository.dislikePost(postId)
+    }
 }
