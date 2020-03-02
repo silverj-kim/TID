@@ -7,8 +7,6 @@ import com.example.today_i_dressedup.data.Post
 
 class PostActivity : AppCompatActivity() {
 
-    private lateinit var post: Post
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
