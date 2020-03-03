@@ -12,6 +12,7 @@ import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import com.example.today_i_dressedup.R
 import com.example.today_i_dressedup.data.repository.PostRepository
+import com.example.today_i_dressedup.ui.postList.PostActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_my_page.*
 
@@ -24,6 +25,13 @@ class MyPageActivity : AppCompatActivity() {
 
     private lateinit var myPageViewModel: MyPageViewModel
     private lateinit var factory: MyPageViewModelFactory
+
+    companion object{
+        const val PUT_EXTRA_KEY = "request_type"
+        const val PUT_EXTRA_FOR_MY_FASHION = 100
+        const val PUT_EXTRA_FOR_LIKE_FASHION = 101
+        const val PUT_EXTRA_FOR_DISLIKE_FASHION = 102
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
@@ -33,12 +41,29 @@ class MyPageActivity : AppCompatActivity() {
     fun initView() {
         factory = MyPageViewModelFactory(PostRepository.getInstance())
         myPageViewModel = ViewModelProviders.of(this, factory).get(MyPageViewModel::class.java)
+
         btn_myUpload = myPageActivity_btn_myUpload
         btn_myUpload.setOnClickListener {
             myPageViewModel.loadMyPosts()
+            val intent = Intent(this, PostActivity::class.java)
+            intent.putExtra(PUT_EXTRA_KEY, PUT_EXTRA_FOR_MY_FASHION)
+            startActivity(intent)
         }
+
         btn_likeFashion = myPageActivity_btn_likeFashion
+        btn_likeFashion.setOnClickListener {
+            val intent = Intent(this, PostActivity::class.java)
+            intent.putExtra(PUT_EXTRA_KEY, PUT_EXTRA_FOR_LIKE_FASHION)
+            startActivity(intent)
+        }
+
         btn_dislikeFashion = myPageActivity_btn_dislikeFashion
+        btn_dislikeFashion.setOnClickListener {
+            val intent = Intent(this, PostActivity::class.java)
+            intent.putExtra(PUT_EXTRA_KEY, PUT_EXTRA_FOR_DISLIKE_FASHION)
+            startActivity(intent)
+        }
+
         fab_add = myPageActivity_fab_add
         fab_add.setOnClickListener {pickPhoto()}
     }

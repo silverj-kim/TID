@@ -2,7 +2,6 @@ package com.example.today_i_dressedup.ui.evaluate
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -137,6 +136,8 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
 
 
     private fun loadAllPosts() {
+        //만약 포스트가 엄청나게 많아지면 평가를 계속해서 못받는 포스트가 생길 수 있으므로 포스트에 마지막으로 평가받은 시간을 저장하는 timestamp를 만들고
+        //마지막으로 평가 받은 시간이 가장 오래 지난 포스트 순으로 정렬해서 DB에서 가져오기.
         val disposable = evalueateViewModel
             .loadAllPosts()
             .subscribeOn(Schedulers.io())
