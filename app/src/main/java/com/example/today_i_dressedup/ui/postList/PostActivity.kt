@@ -36,7 +36,7 @@ class PostActivity : AppCompatActivity(), PostClickListener {
         initViewModel()
         when (requestType) {
             MyPageActivity.PUT_EXTRA_FOR_MY_FASHION -> {
-                loadMyPost()
+                loadMyPost()//
             }
             MyPageActivity.PUT_EXTRA_FOR_LIKE_FASHION -> {
                 loadPostILiked()
