@@ -7,25 +7,36 @@
         android:orientation="vertical"
         tools:context=".ui.myPage.MyPageActivity">
 
+    <ProgressBar
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/myPageActivity_progressBar"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_centerVertical="true">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/myPageActivity_btn_myUpload"
                 android:text="내가 업로드한 패션"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/myPageActivity_btn_likeFashion"
                 android:text="내가 좋아요 누른 패션"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/myPageActivity_btn_dislikeFashion"
                 android:text="내가 싫어요 누른 패션"
                 android:layout_width="match_parent"

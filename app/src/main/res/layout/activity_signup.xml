@@ -96,7 +96,7 @@
                             android:layout_margin="22dp"
                             android:onClick="@{() -> viewmodel.signup()}"
                             android:background="#d67601"
-                            android:text="Sign Up"
+                            android:text="회원가입"
                             android:textAllCaps="false"
                             android:textColor="#fff"
                             android:textSize="18sp"/>

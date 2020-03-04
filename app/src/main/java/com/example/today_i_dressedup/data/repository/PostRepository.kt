@@ -39,4 +39,6 @@ class PostRepository (private val firebase: FirebaseSource) {
     fun likePost(postId: String) {
         firebase.likePost(postId)
     }
+
+    fun getLiveUploadStatus() = firebase.liveUploadState
 }

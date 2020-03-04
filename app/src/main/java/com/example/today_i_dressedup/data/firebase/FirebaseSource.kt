@@ -2,7 +2,10 @@ package com.example.today_i_dressedup.data.firebase
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.today_i_dressedup.data.Post
+import com.example.today_i_dressedup.data.Status
 import com.example.today_i_dressedup.data.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -14,6 +17,8 @@ import io.reactivex.Observable
 import java.io.File
 
 class FirebaseSource {
+
+    val liveUploadState: MutableLiveData<Status> = MutableLiveData()
 
     private val firebaseAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
@@ -75,11 +80,12 @@ class FirebaseSource {
     }
 
     fun uploadPost(filePath: String) {
+        liveUploadState.value = Status.LOADING
         var file = Uri.fromFile(File(filePath))
         val riversRef = firebaseStorage.reference.child("images/${file.lastPathSegment}")
         val uploadTask = riversRef.putFile(file)
         uploadTask.addOnFailureListener {
-            // Handle unsuccessful uploads
+            liveUploadState.value = Status.FAILURE
         }.addOnSuccessListener {
             // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
             // ...
@@ -90,6 +96,7 @@ class FirebaseSource {
                     .collection("posts")
                     .add(post)
                     .addOnSuccessListener {
+                        liveUploadState.value = Status.SUCCESS
                         it.update("timeStamp", FieldValue.serverTimestamp())
 
                         firebaseFirestore
@@ -147,7 +154,7 @@ class FirebaseSource {
     }
 
     fun loadPostILiked() = Observable.create<List<Post>> { emitter ->
-        var likeIdList: List<String>
+        var likeIdList: List<String>?
         firebaseFirestore
             .collection("users")
             .document(currentUser()!!.uid)
@@ -163,7 +170,7 @@ class FirebaseSource {
                     .addOnSuccessListener { documents ->
                         val listILiked: MutableList<Post> = ArrayList()
                         for (document in documents) {
-                            if (likeIdList.contains(document.id)) {
+                            if (likeIdList!!.contains(document.id)) {
                                 listILiked.add(document.toObject(Post::class.java))
                             }
                         }
@@ -176,6 +183,7 @@ class FirebaseSource {
                             emitter.onError(it.exception!!)
                         }
                     }
+
             }
     }
 

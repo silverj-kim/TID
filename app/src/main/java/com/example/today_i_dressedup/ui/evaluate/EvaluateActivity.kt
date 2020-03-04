@@ -27,7 +27,6 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
     private val cardStackView by lazy { findViewById<CardStackView>(R.id.cardStackView) }
     private val manager by lazy { CardStackLayoutManager(this, this) }
     private val adapter by lazy { CardStackAdapter() }
-    private lateinit var iv_addPhoto: ImageView
     private lateinit var iv_myPage: ImageView
 
     //disposable to dispose the Completable
@@ -48,7 +47,6 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
         evalueateViewModel = ViewModelProviders.of(this, factory).get(EvalueateViewModel::class.java)
         val binding: ActivityEvaluateBinding = DataBindingUtil.setContentView(this, R.layout.activity_evaluate)
         binding.viewmodel = evalueateViewModel
-        iv_addPhoto = evaluateActivity_iv_addPhoto
         iv_myPage = evaluateActivity_iv_myPage
         iv_myPage.setOnClickListener {
             startActivity(Intent(this, MyPageActivity::class.java))

@@ -22,4 +22,6 @@ class MyPageViewModel(private val postRepository: PostRepository): ViewModel() {
     fun loadMyPosts(){
         postRepository.loadMyPost()
     }
+
+    fun getUploadLiveStatus() = postRepository.getLiveUploadStatus()
 }
