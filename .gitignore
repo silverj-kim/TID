@@ -7,7 +7,7 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-/app/src/main/java/com/example/today_i_dressedup/util/Secret.kt
+util/Secret.kt
 .DS_Store
 /build
 /captures
