@@ -9,6 +9,7 @@ import com.example.today_i_dressedup.R
 import com.example.today_i_dressedup.data.Post
 import com.example.today_i_dressedup.data.Status
 import com.example.today_i_dressedup.data.User
+import com.example.today_i_dressedup.util.Secret
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -317,7 +318,7 @@ class FirebaseSource {
 
     fun sendNotification(userId: String){
 //        val apiKey = "AIzaSyBgjM5S5_BLimktpYYIlotaDbt9fJJiDfI"
-        val apiKey = Resources.getSystem().getString(R.string.google_fcm_key)
+        val apiKey = Secret.google_fcm_key
         firebaseFirestore
             .collection("users")
             .document(userId)
