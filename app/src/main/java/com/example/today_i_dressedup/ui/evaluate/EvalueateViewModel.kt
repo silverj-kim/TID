@@ -26,4 +26,12 @@ class EvalueateViewModel(private val userRepository: UserRepository, private val
     fun dislikePost(postId: String){
         postRepository.dislikePost(postId)
     }
+
+    fun updateUserToken(){
+        userRepository.updateUserToken()
+    }
+
+    fun sendNotification(userId: String){
+        postRepository.sendNotification(userId)
+    }
 }

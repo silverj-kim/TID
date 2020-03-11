@@ -12,7 +12,8 @@ import com.example.today_i_dressedup.R
 import com.example.today_i_dressedup.data.Post
 import kotlinx.android.synthetic.main.post_list_item.view.*
 
-class PostAdapter(val postClickListener: PostClickListener, var postList: List<Post>, var context: Context) : RecyclerView.Adapter<PostAdapter.PostHolder>() {
+class PostAdapter(val postClickListener: PostClickListener, var postList: List<Post>, var context: Context) :
+    RecyclerView.Adapter<PostAdapter.PostHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): PostHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.post_list_item, p0, false)
         return PostHolder(view)

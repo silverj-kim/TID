@@ -1,20 +1,32 @@
 package com.example.today_i_dressedup.data.firebase
 
+import android.content.res.Resources
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.today_i_dressedup.R
 import com.example.today_i_dressedup.data.Post
 import com.example.today_i_dressedup.data.Status
 import com.example.today_i_dressedup.data.User
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.Completable
 import io.reactivex.Observable
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.File
+import java.io.IOException
+import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class FirebaseSource {
 
@@ -30,6 +42,10 @@ class FirebaseSource {
 
     private val firebaseStorage: FirebaseStorage by lazy {
         FirebaseStorage.getInstance()
+    }
+
+    private val firebaseInstanceId: FirebaseInstanceId by lazy {
+        FirebaseInstanceId.getInstance()
     }
 
     companion object {
@@ -77,6 +93,24 @@ class FirebaseSource {
             .set(user)
             .addOnSuccessListener { Log.d("FirebaseSource", "insertUserToDB Success") }
             .addOnFailureListener { Log.d("FirebaseSource", "insertUserToDB Fail") }
+    }
+
+    fun updateUserToken(){
+        firebaseInstanceId.instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("FirebaeSource", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+                // Get new Instance ID token
+                val token = task.result?.token
+                firebaseFirestore
+                    .collection("users")
+                    .document(currentUser()!!.uid)
+                    .update("token", token)
+                    .addOnSuccessListener { Log.d("FirebaseSource", "updateUserToken Success")  }
+                    .addOnFailureListener { Log.d("FirebaseSource", "updateUserToken Fail")  }
+            })
     }
 
     fun uploadPost(filePath: String) {
@@ -225,6 +259,7 @@ class FirebaseSource {
     fun currentUser() = firebaseAuth.currentUser
 
     fun likePost(postId: String) {
+        val liveData: LiveData<FirebaseUser>
         //postId의 numOfLike를 +1 해주고 완료시 voters에 현재유저의 id를 추가
         firebaseFirestore
             .collection("posts")
@@ -278,5 +313,53 @@ class FirebaseSource {
             .collection("users")
             .document(currentUser()!!.uid)
             .update("dislike_post_ids", FieldValue.arrayUnion(postId)) //dislike_post_ids배열에 싫어요한 post의 id를 추가함
+    }
+
+    fun sendNotification(userId: String){
+//        val apiKey = "AIzaSyBgjM5S5_BLimktpYYIlotaDbt9fJJiDfI"
+        val apiKey = Resources.getSystem().getString(R.string.google_fcm_key)
+        firebaseFirestore
+            .collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { it ->
+                val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
+                val token = it.get("token").toString()
+                Log.d("FirebaseSource token=",token)
+
+                val json = JSONObject()
+                val dataJson = JSONObject()
+                dataJson.put("body", "포스트가 평가되었습니다.")
+                dataJson.put("title", "today_i_dressedup")
+                json.put("notification", dataJson)
+                json.put("to", token)
+
+                val body = RequestBody?.create(JSON, json.toString())
+
+                val okHttpClient = OkHttpClient.Builder().build()
+
+                val request = Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .header("Content-Type","application/json")
+                    .addHeader("Authorization","key="+apiKey)
+                    .post(body)
+                    .build()
+
+                okHttpClient.newCall(request).enqueue(object: Callback{
+                    override fun onFailure(call: Call, e: IOException) {
+                        Log.d("FirebaseSource", "sendNotification Fail")
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        if(response.isSuccessful){
+                            Log.d("FirebaseSource", "sendNotification Success")
+                        }
+                        else{
+                            Log.d("FirebaseSource", "sendNoti Suc,Fail")
+                            Log.d("FirebaseSource", response.code.toString() + ", " + response.message)
+                        }
+                    }
+                })
+            }
     }
 }

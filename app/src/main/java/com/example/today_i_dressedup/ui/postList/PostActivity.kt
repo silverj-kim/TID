@@ -3,6 +3,7 @@ package com.example.today_i_dressedup.ui.postList
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -36,7 +37,7 @@ class PostActivity : AppCompatActivity(), PostClickListener {
         initViewModel()
         when (requestType) {
             MyPageActivity.PUT_EXTRA_FOR_MY_FASHION -> {
-                loadMyPost()//
+                loadMyPost()
             }
             MyPageActivity.PUT_EXTRA_FOR_LIKE_FASHION -> {
                 loadPostILiked()
@@ -47,64 +48,61 @@ class PostActivity : AppCompatActivity(), PostClickListener {
         }
     }
 
-    fun getRequestTypeFromIntent() {
+    private fun getRequestTypeFromIntent() {
         requestType = intent.getIntExtra(MyPageActivity.PUT_EXTRA_KEY, -1)
     }
 
-    fun loadMyPost() {
+    private fun loadMyPost() {
         val disposable = postViewModel
             .loadMyPost()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                for (post in it) {
-                    Log.d("PostActivity", post.toString())
-                }
                 postList = it
                 initView()
+            }, {
+                Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
             })
 
         disposables.add(disposable)
     }
 
-    fun loadPostILiked() {
+    private fun loadPostILiked() {
         val disposable = postViewModel
             .loadPostILiked()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                for (post in it) {
-                    Log.d("PostActivity", post.toString())
-                }
                 postList = it
                 initView()
+            }, {
+                Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
             })
 
         disposables.add(disposable)
     }
 
-    fun loadPostIDisliked() {
+    private fun loadPostIDisliked() {
         val disposable = postViewModel
             .loadPostIDisliked()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                for (post in it) {
-                    Log.d("PostActivity", post.toString())
-                }
                 postList = it
                 initView()
+            }, {
+                Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
             })
 
         disposables.add(disposable)
     }
 
-    fun initViewModel() {
+    private fun initViewModel() {
         val factory = PostViewModelFactory(PostRepository.getInstance())
         postViewModel = ViewModelProviders.of(this, factory).get(PostViewModel::class.java)
     }
 
-    fun initView() {
+    private fun initView() {
         recyclerView = postActivity_recyclerView
         adapter = PostAdapter(this, postList, this)
         recyclerView.layoutManager = GridLayoutManager(this, 2)

@@ -22,4 +22,8 @@ class UserRepository (private val firebase: FirebaseSource) {
     fun currentUser() = firebase.currentUser()
 
     fun logout() = firebase.logout()
+
+    fun updateUserToken(){
+        firebase.updateUserToken()
+    }
 }

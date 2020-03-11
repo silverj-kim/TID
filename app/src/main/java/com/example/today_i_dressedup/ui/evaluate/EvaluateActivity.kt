@@ -2,11 +2,13 @@ package com.example.today_i_dressedup.ui.evaluate
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -37,6 +39,7 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("EvaluateActivity:", getString(R.string.google_fcm_key))
         setContentView(R.layout.activity_evaluate)
         initialize()
         setupButton()
@@ -47,6 +50,7 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
         evalueateViewModel = ViewModelProviders.of(this, factory).get(EvalueateViewModel::class.java)
         val binding: ActivityEvaluateBinding = DataBindingUtil.setContentView(this, R.layout.activity_evaluate)
         binding.viewmodel = evalueateViewModel
+        evalueateViewModel.updateUserToken()
         iv_myPage = evaluateActivity_iv_myPage
         iv_myPage.setOnClickListener {
             startActivity(Intent(this, MyPageActivity::class.java))
@@ -74,11 +78,17 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
 
     override fun onCardSwiped(direction: Direction?) {
         //현재 포지션의 이전 포스트가 스와이프 된 것이기 때문에 -1 포지션의 id를 인자로 넘겨줌.
-        val postId = adapter.getPosts()[manager.topPosition - 1].id
+        val post = adapter.getPosts()[manager.topPosition - 1]
         when (direction) {
-            Direction.Right -> evalueateViewModel.likePost(postId)
+            Direction.Right -> {
+                evalueateViewModel.likePost(post.id)
+                evalueateViewModel.sendNotification(post.userId)
+            }
 
-            Direction.Left -> evalueateViewModel.dislikePost(postId)
+            Direction.Left -> {
+                evalueateViewModel.dislikePost(post.id)
+                evalueateViewModel.sendNotification(post.userId)
+            }
         }
     }
 
@@ -142,6 +152,8 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 adapter.setPosts(it)
+            },{
+                Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
             })
 
         disposables.add(disposable)
@@ -150,5 +162,32 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
     override fun onRestart() {
         super.onRestart()
         loadAllPosts()
+        Log.d("EvaluateActivity:", "onRestart()")
     }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("EvaluateActivity:", "onStart()")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("EvaluateActivity:", "onDestroy()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("EvaluateActivity:", "onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("EvaluateActivity:", "onStop()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("EvaluateActivity:", "onResume()")
+    }
+
 }

@@ -16,23 +16,6 @@
                   android:orientation="vertical"
                   tools:context=".ui.evaluate.EvaluateActivity">
 
-        <!--<TextView-->
-        <!--android:text="@{viewmodel.user.email}"-->
-        <!--tools:text="probelalkhan@gmail.com"-->
-        <!--android:textAppearance="@style/TextAppearance.AppCompat.Headline"-->
-        <!--android:layout_centerInParent="true"-->
-        <!--android:id="@+id/textViewEmail"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"/>-->
-
-        <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:onClick="@{(v) -> viewmodel.logout(v)}"
-                android:text="Logout"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
         <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -43,6 +26,14 @@
                     android:src="@drawable/ic_shortcut_account_circle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
+            <!--<com.google.android.material.button.MaterialButton-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--style="@style/Widget.MaterialComponents.Button.TextButton"-->
+                    <!--android:onClick="@{(v) -> viewmodel.logout(v)}"-->
+                    <!--android:text="Logout"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"/>-->
 
 
         </RelativeLayout>

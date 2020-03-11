@@ -43,10 +43,9 @@ class MyPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
         initView()
-        observe()
     }
 
-    fun observe() {
+    private fun observe() {
         myPageViewModel.getUploadLiveStatus().observe(this, Observer {
             when (it) {
                 Status.SUCCESS -> {
@@ -64,7 +63,7 @@ class MyPageActivity : AppCompatActivity() {
         })
     }
 
-    fun initView() {
+    private fun initView() {
         factory = MyPageViewModelFactory(PostRepository.getInstance())
         myPageViewModel = ViewModelProviders.of(this, factory).get(MyPageViewModel::class.java)
 
@@ -96,7 +95,7 @@ class MyPageActivity : AppCompatActivity() {
         progressBar = myPageActivity_progressBar
     }
 
-    fun pickPhoto() {
+    private fun pickPhoto() {
         ImagePicker.create(this)
             .returnMode(ReturnMode.NONE) // set whether pick and / or camera action should return immediate result or not.
             .folderMode(true) // folder mode (false by default)
@@ -119,17 +118,18 @@ class MyPageActivity : AppCompatActivity() {
             val images = ImagePicker.getImages(data)
             for (image in images) {
                 Log.d("picked", image.path)
+                observe()
                 myPageViewModel.uploadPostToServer(image.path)
                 //memoId는 MemoListActivity에서 memo를 db에 저장한 후 리턴되는 id값을 이용해서 다시 세팅함.
             }
         }
     }
 
-    fun showProgressBar() {
+    private fun showProgressBar() {
         progressBar.visibility = View.VISIBLE
     }
 
-    fun hideProgressBar() {
+    private fun hideProgressBar() {
         progressBar.visibility = View.GONE
     }
 }

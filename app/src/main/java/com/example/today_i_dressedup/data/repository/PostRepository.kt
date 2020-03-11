@@ -41,4 +41,8 @@ class PostRepository (private val firebase: FirebaseSource) {
     }
 
     fun getLiveUploadStatus() = firebase.liveUploadState
+
+    fun sendNotification(userId: String){
+        firebase.sendNotification(userId)
+    }
 }

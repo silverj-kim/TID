@@ -25,11 +25,11 @@ class PostDetailActivity : AppCompatActivity() {
         showPost()
     }
 
-    fun getPostFromIntent() {
+    private fun getPostFromIntent() {
         post = intent.getSerializableExtra("post") as Post
     }
 
-    fun showPost() {
+    private fun showPost() {
         Glide.with(this)
             .load(post.imgUrl)
             .into(iv_img)
@@ -37,7 +37,7 @@ class PostDetailActivity : AppCompatActivity() {
         tv_numOfDislike.text = post.numOfDislike.toString()
     }
 
-    fun initView() {
+    private fun initView() {
         tv_numOfLike = postDetailActivity_tv_numOfLike
         tv_numOfDislike = postDetailActivity_tv_numOfDislike
         iv_img = postDetailActivity_iv_img
