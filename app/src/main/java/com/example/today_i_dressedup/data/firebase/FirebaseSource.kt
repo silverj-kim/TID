@@ -317,7 +317,6 @@ class FirebaseSource {
     }
 
     fun sendNotification(userId: String){
-//        val apiKey = "AIzaSyBgjM5S5_BLimktpYYIlotaDbt9fJJiDfI"
         val apiKey = Secret.google_fcm_key
         firebaseFirestore
             .collection("users")
