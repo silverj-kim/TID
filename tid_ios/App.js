@@ -2,182 +2,39 @@ import * as React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import CardStack, {Card} from 'react-native-card-stack-swiper';
-import backImg from './assets/images/back.png';
-import goodImg from './assets/images/green.png';
-import badImg from './assets/images/red.png';
-
-function HomeScreen() {
-  return (
-    <View style={{flex: 1}}>
-      <CardStack
-        style={styles.content}
-        renderNoMoreCards={() => (
-          <Text style={{fontWeight: '700', fontSize: 18, color: 'gray'}}>
-            No more cards :(
-          </Text>
-        )}
-        ref={swiper => {
-          this.swiper = swiper;
-        }}
-        verticalSwipe={false}
-        onSwiped={() => console.log('onSwiped')}
-        onSwipedLeft={() => console.log('onSwipedLeft')}>
-        <Card style={[styles.card, styles.card1]}>
-          <Text style={styles.label}>A</Text>
-        </Card>
-        <Card
-          style={[styles.card, styles.card2]}
-          onSwipedLeft={() => alert('onSwipedLeft')}>
-          <Text style={styles.label}>B</Text>
-        </Card>
-        <Card style={[styles.card, styles.card1]}>
-          <Text style={styles.label}>C</Text>
-        </Card>
-        <Card style={[styles.card, styles.card2]}>
-          <Text style={styles.label}>D</Text>
-        </Card>
-        <Card style={[styles.card, styles.card1]}>
-          <Text style={styles.label}>E</Text>
-        </Card>
-      </CardStack>
-
-      <View style={styles.footer}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={[styles.button, styles.red]}
-            onPress={() => {
-              this.swiper.swipeLeft();
-            }}>
-            <Image
-              source={badImg}
-              resizeMode={'contain'}
-              style={{height: 62, width: 62}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.orange]}
-            onPress={() => {
-              this.swiper.goBackFromLeft();
-            }}>
-            <Image
-              source={backImg}
-              resizeMode={'contain'}
-              style={{height: 32, width: 32, borderRadius: 5}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.green]}
-            onPress={() => {
-              this.swiper.swipeRight();
-            }}>
-            <Image
-              source={goodImg}
-              resizeMode={'contain'}
-              style={{height: 62, width: 62}}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#f2f2f2',
-  },
-  content: {
-    flex: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  card: {
-    width: 320,
-    height: 470,
-    backgroundColor: '#FE474C',
-    borderRadius: 5,
-    shadowColor: 'rgba(0,0,0,0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.5,
-  },
-  card1: {
-    backgroundColor: '#FE474C',
-  },
-  card2: {
-    backgroundColor: '#FEB12C',
-  },
-  label: {
-    lineHeight: 400,
-    textAlign: 'center',
-    fontSize: 55,
-    fontFamily: 'System',
-    color: '#ffffff',
-    backgroundColor: 'transparent',
-  },
-  footer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonContainer: {
-    width: 220,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  button: {
-    shadowColor: 'rgba(0,0,0,0.3)',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.5,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 0,
-  },
-  orange: {
-    width: 55,
-    height: 55,
-    borderWidth: 6,
-    borderColor: 'rgb(246,190,66)',
-    borderRadius: 55,
-    marginTop: -15,
-  },
-  green: {
-    width: 75,
-    height: 75,
-    backgroundColor: '#fff',
-    borderRadius: 75,
-    borderWidth: 6,
-    borderColor: '#01df8a',
-  },
-  red: {
-    width: 75,
-    height: 75,
-    backgroundColor: '#fff',
-    borderRadius: 75,
-    borderWidth: 6,
-    borderColor: '#fd267d',
-  },
-});
+import FashionScreen from './views/FashionScreen';
+import LoginScreen from './views/LoginScreen';
+import firebase from 'react-native-firebase';
 
 const Stack = createStackNavigator();
 
-function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+class App extends React.Component {
+  state = {
+    user: null,
+  };
+
+  componentDidMount() {
+    this.unsubscriber = firebase.auth().onAuthStateChanged(user => {
+      this.setState({user});
+    });
+  }
+
+  componentWillUnmount() {
+    if (this.unsubscriber) {
+      this.unsubscriber();
+    }
+  }
+
+  render() {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Fashion" component={FashionScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 }
 
 export default App;

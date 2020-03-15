@@ -12,6 +12,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		196A8D91241E5ABC000CAE0A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 196A8D90241E5ABC000CAE0A /* GoogleService-Info.plist */; };
 		784685423E759022C74E188D /* libPods-tid_ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7170023E8A2C20C9E633A10F /* libPods-tid_ios.a */; };
 		F28FEF991C06F69E77F46BE9 /* libPods-tid_iosTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E13504D4A6917C6A34B4864 /* libPods-tid_iosTests.a */; };
 /* End PBXBuildFile section */
@@ -41,6 +42,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = tid_ios/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tid_ios/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = tid_ios/main.m; sourceTree = "<group>"; };
+		196A8D90241E5ABC000CAE0A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3AE7DA1A6DF8E670B836202B /* Pods-tid_iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tid_iosTests.debug.xcconfig"; path = "Target Support Files/Pods-tid_iosTests/Pods-tid_iosTests.debug.xcconfig"; sourceTree = "<group>"; };
 		57335191B87F3B54905DBB21 /* Pods-tid_ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tid_ios.release.xcconfig"; path = "Target Support Files/Pods-tid_ios/Pods-tid_ios.release.xcconfig"; sourceTree = "<group>"; };
 		63DDA8A47770125227622B96 /* Pods-tid_ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-tid_ios.debug.xcconfig"; path = "Target Support Files/Pods-tid_ios/Pods-tid_ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 		13B07FAE1A68108700A75B9A /* tid_ios */ = {
 			isa = PBXGroup;
 			children = (
+				196A8D90241E5ABC000CAE0A /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -255,6 +258,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				196A8D91241E5ABC000CAE0A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,7 +442,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.today-i-dressedup";
 				PRODUCT_NAME = tid_ios;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -457,7 +461,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.today-i-dressedup";
 				PRODUCT_NAME = tid_ios;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
