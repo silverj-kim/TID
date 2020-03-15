@@ -1,21 +1,25 @@
 import * as React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, CommonActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import FashionScreen from './views/FashionScreen';
 import LoginScreen from './views/LoginScreen';
 import firebase from 'react-native-firebase';
+import {isEmpty} from 'lodash';
+import {storeData} from './utils/async-storage-manager';
 
 const Stack = createStackNavigator();
 
 class App extends React.Component {
   state = {
-    user: null,
+    token: null,
   };
 
   componentDidMount() {
     this.unsubscriber = firebase.auth().onAuthStateChanged(user => {
-      this.setState({user});
+      if (!isEmpty(user)) {
+        this._loadUser(user);
+      }
     });
   }
 
@@ -25,12 +29,27 @@ class App extends React.Component {
     }
   }
 
+  _loadUser = async user => {
+    try {
+      const {uid} = user._user;
+      await storeData('token', uid);
+      this.setState({
+        token: uid,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   render() {
     return (
-      <NavigationContainer>
+      <NavigationContainer ref={this.navigationRef}>
         <Stack.Navigator>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Fashion" component={FashionScreen} />
+          {this.state.token ? (
+            <Stack.Screen name="Fashion" component={FashionScreen} />
+          ) : (
+            <Stack.Screen name="Login" component={LoginScreen} />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     );

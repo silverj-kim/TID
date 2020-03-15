@@ -1,16 +1,22 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import CardStack, {Card} from 'react-native-card-stack-swiper';
+import profileIcon from '../assets/images/user.png';
 import backImg from '../assets/images/back.png';
 import goodImg from '../assets/images/green.png';
 import badImg from '../assets/images/red.png';
-import {styles} from './style';
+import {fashionScreen} from './style';
 
 export default function FashionScreen() {
   return (
-    <View style={styles.container}>
+    <View style={fashionScreen.container}>
+      <View style={fashionScreen.container}>
+        <TouchableOpacity style={fashionScreen.profileIconWrapper}>
+          <Image style={fashionScreen.profileIcon} source={profileIcon} />
+        </TouchableOpacity>
+      </View>
       <CardStack
-        style={styles.content}
+        style={fashionScreen.cardStack}
         renderNoMoreCards={() => (
           <Text
             style={{
@@ -27,27 +33,27 @@ export default function FashionScreen() {
         verticalSwipe={false}
         onSwiped={() => console.log('onSwiped')}
         onSwipedLeft={() => console.log('onSwipedLeft')}>
-        <Card style={[styles.card]}>
-          <Text style={styles.label}>A</Text>
+        <Card style={[fashionScreen.card]}>
+          <Text style={fashionScreen.label}>A</Text>
         </Card>
-        <Card style={[styles.card, styles.card2]}>
-          <Text style={styles.label}>B</Text>
+        <Card style={[fashionScreen.card, fashionScreen.card2]}>
+          <Text style={fashionScreen.label}>B</Text>
         </Card>
-        <Card style={[styles.card, styles.card1]}>
-          <Text style={styles.label}>C</Text>
+        <Card style={[fashionScreen.card, fashionScreen.card1]}>
+          <Text style={fashionScreen.label}>C</Text>
         </Card>
-        <Card style={[styles.card, styles.card2]}>
-          <Text style={styles.label}>D</Text>
+        <Card style={[fashionScreen.card, fashionScreen.card2]}>
+          <Text style={fashionScreen.label}>D</Text>
         </Card>
-        <Card style={[styles.card, styles.card1]}>
-          <Text style={styles.label}>E</Text>
+        <Card style={[fashionScreen.card, fashionScreen.card1]}>
+          <Text style={fashionScreen.label}>E</Text>
         </Card>
       </CardStack>
 
-      <View style={styles.footer}>
-        <View style={styles.buttonContainer}>
+      <View style={fashionScreen.footer}>
+        <View style={fashionScreen.buttonContainer}>
           <TouchableOpacity
-            style={[styles.button, styles.red]}
+            style={[fashionScreen.button, fashionScreen.red]}
             onPress={() => {
               this.swiper.swipeLeft();
             }}>
@@ -58,7 +64,7 @@ export default function FashionScreen() {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, styles.orange]}
+            style={[fashionScreen.button, fashionScreen.orange]}
             onPress={() => {
               this.swiper.goBackFromLeft();
             }}>
@@ -69,7 +75,7 @@ export default function FashionScreen() {
             />
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, styles.green]}
+            style={[fashionScreen.button, fashionScreen.green]}
             onPress={() => {
               this.swiper.swipeRight();
             }}>

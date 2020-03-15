@@ -1,10 +1,10 @@
 import {StyleSheet} from 'react-native';
 
-export const styles = StyleSheet.create({
+export const fashionScreen = StyleSheet.create({
   container: {
     flex: 1,
   },
-  content: {
+  cardStack: {
     flex: 5,
     alignItems: 'center',
     justifyContent: 'center',
@@ -81,6 +81,22 @@ export const styles = StyleSheet.create({
     borderWidth: 6,
     borderColor: '#fd267d',
   },
+  profileIcon: {
+    width: 50,
+    height: 50,
+  },
+  profileIconWrapper: {
+    width: 70,
+    height: 70,
+    backgroundColor: 'white',
+    borderWidth: 5,
+    borderColor: '#cfcfcf',
+    borderRadius: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 10,
+  },
 });
 
 export const loginScreen = StyleSheet.create({
@@ -94,7 +110,7 @@ export const loginScreen = StyleSheet.create({
   titleWrapper: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   loginTitle: {
     fontSize: 25,

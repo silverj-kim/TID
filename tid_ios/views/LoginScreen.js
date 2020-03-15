@@ -1,14 +1,8 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  AsyncStorage,
-} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {loginScreen} from './style';
 import firebase from 'react-native-firebase';
+import {storeData, retrieveData} from '../utils/async-storage-manager';
 
 export default function LoginScreen({navigation}) {
   const [email, onChangeEmail] = useState('');
@@ -23,9 +17,9 @@ export default function LoginScreen({navigation}) {
           const res = await firebase
             .auth()
             .signInWithEmailAndPassword(email, password);
-          //TODO save token
           console.log(res);
           console.log(res.user);
+          console.log(res.user._user);
           navigation.navigate('Fashion');
         } catch (err) {
           if (err.code) {
