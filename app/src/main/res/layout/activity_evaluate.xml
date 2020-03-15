@@ -5,7 +5,7 @@
 
         <variable
                 name="viewmodel"
-                type="com.example.today_i_dressedup.ui.evaluate.EvalueateViewModel"/>
+                type="com.shimsoon.today_i_dressedup.ui.evaluate.EvalueateViewModel"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,12 +28,12 @@
                     android:layout_height="wrap_content"/>
 
             <!--<com.google.android.material.button.MaterialButton-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--style="@style/Widget.MaterialComponents.Button.TextButton"-->
-                    <!--android:onClick="@{(v) -> viewmodel.logout(v)}"-->
-                    <!--android:text="Logout"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"/>-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--style="@style/Widget.MaterialComponents.Button.TextButton"-->
+            <!--android:onClick="@{(v) -> viewmodel.logout(v)}"-->
+            <!--android:text="Logout"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"/>-->
 
 
         </RelativeLayout>
@@ -43,13 +43,22 @@
                 android:layout_height="match_parent"
                 android:clipChildren="false">
 
+            <TextView
+                    android:id="@+id/evaluateActivity_tv_noItem"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
+                    android:text="평가할 포스트가 없습니다."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
             <RelativeLayout
                     android:id="@+id/button_container"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_height="80dp"
-                    android:layout_alignParentBottom="true"
+                    android:layout_above="@+id/evaluateActivity_adView"
                     android:clipChildren="false">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -73,6 +82,7 @@
                         android:layout_marginRight="32dp"
                         android:layout_marginEnd="32dp"
                         android:layout_centerInParent="true"
+                        android:visibility="invisible"
                         android:src="@drawable/rewind_blue_24dp"
                         app:backgroundTint="@android:color/white"
                         app:fabSize="mini"
@@ -101,7 +111,22 @@
                     android:clipToPadding="false">
             </com.yuyakaido.android.cardstackview.CardStackView>
 
+            <com.google.android.gms.ads.AdView
+
+                    xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/evaluateActivity_adView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    ads:adSize="BANNER"
+                    ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+            </com.google.android.gms.ads.AdView>
+
+
+
         </RelativeLayout>
+
 
     </LinearLayout>
 </layout>

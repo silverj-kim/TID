@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:983956591494:android:bbedff9f22e5180cdfd207",
         "android_client_info": {
-          "package_name": "com.example.today_i_dressedup"
+          "package_name": "com.shimsoon.today_i_dressedup"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "983956591494-4tidhrrr93n25ifb1ijvf3ots27m697p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.today_i_dressedup",
+            "package_name": "com.shimsoon.today_i_dressedup",
             "certificate_hash": "9c3ca3356d2c2592312703d5e794a04ee6042f0e"
           }
         },

@@ -6,7 +6,7 @@
 
     <data>
         <variable name="viewmodel"
-                  type="com.example.today_i_dressedup.ui.auth.AuthViewModel"/>
+                  type="com.shimsoon.today_i_dressedup.ui.auth.AuthViewModel"/>
     </data>
 
     <RelativeLayout android:layout_width="match_parent"
@@ -107,7 +107,7 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                             android:textAlignment="center"
                             android:onClick="@{(v) -> viewmodel.goToLogin(v)}"
-                            android:text="Already have an account.\nLogin Here"
+                            android:text="이미 계정이 있으신가요? \n여기를 눌러주세요"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
                 </LinearLayout>

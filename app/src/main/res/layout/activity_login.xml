@@ -6,7 +6,7 @@
 
         <variable
                 name="viewmodel"
-                type="com.example.today_i_dressedup.ui.auth.AuthViewModel"/>
+                type="com.shimsoon.today_i_dressedup.ui.auth.AuthViewModel"/>
     </data>
 
     <RelativeLayout

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_margin="8dp"
-              android:orientation="vertical">
+                                   android:layout_width="wrap_content"
+                                   android:layout_height="wrap_content"
+                                   android:layout_margin="8dp"
+                                   android:orientation="vertical">
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
         <ImageView
                 android:id="@+id/postList_iv_thumbnail"
                 android:layout_width="wrap_content"
@@ -21,11 +22,12 @@
 
             <ImageView
                     android:id="@+id/postList_iv_thumbUp"
-                    android:background="@drawable/baseline_thumb_up_alt_black_24dp"
+                    android:background="@drawable/ic_shortcut_thumb_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
             <TextView
+                    android:layout_gravity="center_vertical"
                     android:id="@+id/postList_tv_numOfLike"
                     android:text="1000"
                     android:layout_width="wrap_content"
@@ -42,10 +44,11 @@
                     android:id="@+id/postList_iv_thumbDown"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/baseline_thumb_down_alt_black_24dp"/>
+                    android:background="@drawable/ic_shortcut_thumb_down"/>
 
             <TextView
                     android:id="@+id/postList_tv_numOfDisLike"
+                    android:layout_gravity="center_vertical"
                     android:text="1000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>

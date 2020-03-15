@@ -16,8 +16,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     defaultConfig {
-        applicationId "com.example.today_i_dressedup"
-        minSdkVersion 16
+        applicationId "com.shimsoon.today_i_dressedup"
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -47,6 +47,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
+
     implementation 'com.makeramen:roundedimageview:2.3.0'
 
     //viewmodel and livedata
@@ -64,6 +65,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
 
     implementation("com.squareup.okhttp3:okhttp:4.4.0")
+
+    implementation 'com.google.android.gms:play-services-ads:19.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
