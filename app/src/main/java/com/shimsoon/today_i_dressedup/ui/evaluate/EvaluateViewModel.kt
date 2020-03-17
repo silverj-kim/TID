@@ -6,7 +6,10 @@ import com.shimsoon.today_i_dressedup.data.repository.PostRepository
 import com.shimsoon.today_i_dressedup.data.repository.UserRepository
 import com.shimsoon.today_i_dressedup.util.startLoginActivity
 
-class EvalueateViewModel(private val userRepository: UserRepository, private val postRepository: PostRepository) : ViewModel() {
+class EvaluateViewModel : ViewModel() {
+
+    private val userRepository: UserRepository = UserRepository.getInstance()
+    private val postRepository: PostRepository = PostRepository.getInstance()
 
     val user by lazy {
         userRepository.currentUser()
@@ -19,19 +22,19 @@ class EvalueateViewModel(private val userRepository: UserRepository, private val
 
     fun loadAllPosts() = postRepository.loadAllPost()
 
-    fun likePost(postId: String){
+    fun likePost(postId: String) {
         postRepository.likePost(postId)
     }
 
-    fun dislikePost(postId: String){
+    fun dislikePost(postId: String) {
         postRepository.dislikePost(postId)
     }
 
-    fun updateUserToken(){
+    fun updateUserToken() {
         userRepository.updateUserToken()
     }
 
-    fun sendNotification(userId: String, postId: String){
+    fun sendNotification(userId: String, postId: String) {
         postRepository.sendNotification(userId, postId)
     }
 }

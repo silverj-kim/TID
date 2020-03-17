@@ -2,12 +2,14 @@ package com.shimsoon.today_i_dressedup.data.repository
 
 import com.shimsoon.today_i_dressedup.data.firebase.FirebaseSource
 
-class PostRepository (private val firebase: FirebaseSource) {
+class PostRepository(private val firebase: FirebaseSource) {
 
     companion object {
-        @Volatile private var instance: PostRepository? = null
+        @Volatile
+        private var instance: PostRepository? = null
 
-        @JvmStatic fun getInstance(): PostRepository =
+        @JvmStatic
+        fun getInstance(): PostRepository =
             instance ?: synchronized(this) {
                 instance ?: PostRepository(FirebaseSource.getInstance()).also {
                     instance = it
@@ -15,7 +17,7 @@ class PostRepository (private val firebase: FirebaseSource) {
             }
     }
 
-    fun uploadPost(filePath: String){
+    fun uploadPost(filePath: String) {
         firebase.uploadPost(filePath)
     }
 
@@ -42,7 +44,7 @@ class PostRepository (private val firebase: FirebaseSource) {
 
     fun getLiveUploadStatus() = firebase.liveUploadState
 
-    fun sendNotification(userId: String, postId: String){
+    fun sendNotification(userId: String, postId: String) {
         firebase.sendNotification(userId, postId)
     }
 }

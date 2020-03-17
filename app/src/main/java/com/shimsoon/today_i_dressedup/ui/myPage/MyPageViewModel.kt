@@ -3,21 +3,23 @@ package com.shimsoon.today_i_dressedup.ui.myPage
 import androidx.lifecycle.ViewModel
 import com.shimsoon.today_i_dressedup.data.repository.PostRepository
 
-class MyPageViewModel(private val postRepository: PostRepository): ViewModel() {
+class MyPageViewModel : ViewModel() {
 
-    fun uploadPostToServer(filePath: String){
+    private val postRepository: PostRepository = PostRepository.getInstance()
+
+    fun uploadPostToServer(filePath: String) {
         postRepository.uploadPost(filePath)
     }
 
-    fun loadPostsILiked(){
+    fun loadPostsILiked() {
 
     }
 
-    fun loadPostsIDisliked(){
+    fun loadPostsIDisliked() {
 
     }
 
-    fun loadMyPosts(){
+    fun loadMyPosts() {
         postRepository.loadMyPost()
     }
 

@@ -5,7 +5,7 @@
 
         <variable
                 name="viewmodel"
-                type="com.shimsoon.today_i_dressedup.ui.evaluate.EvalueateViewModel"/>
+                type="com.shimsoon.today_i_dressedup.ui.evaluate.EvaluateViewModel"/>
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -120,13 +120,10 @@
                     android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true"
                     ads:adSize="BANNER"
-                    ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+                    ads:adUnitId="ca-app-pub-7264194476227331/1588864676">
             </com.google.android.gms.ads.AdView>
 
-
-
         </RelativeLayout>
-
 
     </LinearLayout>
 </layout>

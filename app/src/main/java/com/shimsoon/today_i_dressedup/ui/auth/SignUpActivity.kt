@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.shimsoon.today_i_dressedup.R
-import com.shimsoon.today_i_dressedup.data.repository.UserRepository
 import com.shimsoon.today_i_dressedup.databinding.ActivitySignupBinding
 import com.shimsoon.today_i_dressedup.util.startHomeActivity
 import kotlinx.android.synthetic.main.activity_signup.*
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_signup.*
 class SignUpActivity : AppCompatActivity(), AuthListener {
 
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var factory: AuthViewModelFactory
+//    private lateinit var factory: AuthViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +24,9 @@ class SignUpActivity : AppCompatActivity(), AuthListener {
         init()
     }
 
-    fun init(){
-        factory = AuthViewModelFactory(UserRepository.getInstance())
-        authViewModel = ViewModelProviders.of(this, factory).get(AuthViewModel::class.java)
+    fun init() {
+//        factory = AuthViewModelFactory(UserRepository.getInstance())
+        authViewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         val binding: ActivitySignupBinding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
         binding.viewmodel = authViewModel
         authViewModel.authListener = this
@@ -48,11 +47,11 @@ class SignUpActivity : AppCompatActivity(), AuthListener {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun showProgressBar(){
+    private fun showProgressBar() {
         progressbar.visibility = View.VISIBLE
     }
 
-    private fun hideProgressBar(){
+    private fun hideProgressBar() {
         progressbar.visibility = View.GONE
     }
 }

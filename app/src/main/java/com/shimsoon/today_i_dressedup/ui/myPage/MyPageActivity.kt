@@ -13,12 +13,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
-import com.shimsoon.today_i_dressedup.R
-import com.shimsoon.today_i_dressedup.data.Status
-import com.shimsoon.today_i_dressedup.data.repository.PostRepository
-import com.shimsoon.today_i_dressedup.ui.postList.PostActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.shimsoon.today_i_dressedup.R
+import com.shimsoon.today_i_dressedup.data.Status
+import com.shimsoon.today_i_dressedup.ui.postList.PostActivity
 import kotlinx.android.synthetic.main.activity_my_page.*
 
 class MyPageActivity : AppCompatActivity() {
@@ -30,7 +29,6 @@ class MyPageActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
 
     private lateinit var myPageViewModel: MyPageViewModel
-    private lateinit var factory: MyPageViewModelFactory
 
     companion object {
         const val PUT_EXTRA_KEY = "request_type"
@@ -64,8 +62,7 @@ class MyPageActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        factory = MyPageViewModelFactory(PostRepository.getInstance())
-        myPageViewModel = ViewModelProviders.of(this, factory).get(MyPageViewModel::class.java)
+        myPageViewModel = ViewModelProviders.of(this).get(MyPageViewModel::class.java)
 
         btn_myUpload = myPageActivity_btn_myUpload
         btn_myUpload.setOnClickListener {

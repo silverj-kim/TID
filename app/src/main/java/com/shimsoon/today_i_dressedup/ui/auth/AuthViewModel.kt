@@ -8,7 +8,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class AuthViewModel(private val repository: UserRepository) : ViewModel() {
+class AuthViewModel : ViewModel() {
+
+    private val repository: UserRepository = UserRepository.getInstance()
 
     //email and password for the input
     var email: String? = null
@@ -85,5 +87,4 @@ class AuthViewModel(private val repository: UserRepository) : ViewModel() {
         super.onCleared()
         disposables.dispose()
     }
-
 }
