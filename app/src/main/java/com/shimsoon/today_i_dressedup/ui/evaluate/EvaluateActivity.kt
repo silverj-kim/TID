@@ -8,6 +8,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -30,14 +31,15 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
     private val cardStackView by lazy { findViewById<CardStackView>(R.id.cardStackView) }
     private val manager by lazy { CardStackLayoutManager(this, this) }
     private val adapter by lazy { CardStackAdapter() }
+
     private lateinit var iv_myPage: ImageView
+    private lateinit var progressBar: ProgressBar
     private lateinit var adView: AdView
 
     //disposable to dispose the Completable
     private val disposables = CompositeDisposable()
 
     private lateinit var evaluateViewModel: EvaluateViewModel
-//    private lateinit var factory: EvaluateViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +49,17 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
     }
 
     private fun initialize() {
-//        factory = EvaluateViewModelFactory(UserRepository.getInstance(), PostRepository.getInstance())
         evaluateViewModel = ViewModelProviders.of(this).get(EvaluateViewModel::class.java)
         val binding: ActivityEvaluateBinding = DataBindingUtil.setContentView(this, R.layout.activity_evaluate)
         binding.viewmodel = evaluateViewModel
         evaluateViewModel.updateUserToken()
+
+        progressBar = evaluateActivity_progressBar
         iv_myPage = evaluateActivity_iv_myPage
         iv_myPage.setOnClickListener {
             startActivity(Intent(this, MyPageActivity::class.java))
         }
+
         manager.setStackFrom(StackFrom.None)
         manager.setVisibleCount(3)
         manager.setTranslationInterval(8.0f)
@@ -70,6 +74,7 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         loadAllPosts()
+
         cardStackView.itemAnimator.apply {
             if (this is DefaultItemAnimator) {
                 supportsChangeAnimations = false
@@ -150,6 +155,7 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
 
 
     private fun loadAllPosts() {
+        showProgressBar()
         //만약 포스트가 엄청나게 많아지면 평가를 계속해서 못받는 포스트가 생길 수 있으므로 포스트에 마지막으로 평가받은 시간을 저장하는 timestamp를 만들고
         //마지막으로 평가 받은 시간이 가장 오래 지난 포스트 순으로 정렬해서 DB에서 가져오기.
         val disposable = evaluateViewModel
@@ -157,13 +163,15 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                if (it.size > 0) {
+                if (it.isNotEmpty()) {
                     hideNoItemTextView()
                 } else {
                     showNoItemTextView()
                 }
+                hideProgressBar()
                 adapter.setPosts(it)
             }, {
+                hideProgressBar()
                 Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
             })
 
@@ -178,35 +186,17 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
         evaluateActivity_tv_noItem.visibility = View.GONE
     }
 
+    private fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        progressBar.visibility = View.GONE
+    }
+
     override fun onRestart() {
         super.onRestart()
         loadAllPosts()
         Log.d("EvaluateActivity:", "onRestart()")
     }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("EvaluateActivity:", "onStart()")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("EvaluateActivity:", "onDestroy()")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("EvaluateActivity:", "onPause()")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("EvaluateActivity:", "onStop()")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("EvaluateActivity:", "onResume()")
-    }
-
 }
