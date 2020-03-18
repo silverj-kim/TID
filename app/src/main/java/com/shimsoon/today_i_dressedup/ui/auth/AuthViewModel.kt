@@ -28,7 +28,6 @@ class AuthViewModel : ViewModel() {
 
     //function to perform login
     fun login() {
-
         //validating email and password
         if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
             authListener?.onFailure("Invalid email or password")
@@ -51,6 +50,7 @@ class AuthViewModel : ViewModel() {
             })
         disposables.add(disposable)
     }
+
 
     //Doing same thing with signup
     fun signup() {

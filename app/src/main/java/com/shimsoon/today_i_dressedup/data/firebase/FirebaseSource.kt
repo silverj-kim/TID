@@ -3,10 +3,6 @@ package com.shimsoon.today_i_dressedup.data.firebase
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.shimsoon.today_i_dressedup.data.Post
-import com.shimsoon.today_i_dressedup.data.Status
-import com.shimsoon.today_i_dressedup.data.User
-import com.shimsoon.today_i_dressedup.util.Secret
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -14,14 +10,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
+import com.shimsoon.today_i_dressedup.data.Post
+import com.shimsoon.today_i_dressedup.data.Status
+import com.shimsoon.today_i_dressedup.data.User
+import com.shimsoon.today_i_dressedup.util.Secret
 import io.reactivex.Completable
 import io.reactivex.Observable
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
-import org.json.JSONObject
-import kotlin.collections.ArrayList
 
 
 class FirebaseSource {
@@ -34,6 +33,7 @@ class FirebaseSource {
 
     private val firebaseFirestore: FirebaseFirestore by lazy {
         FirebaseFirestore.getInstance()
+
     }
 
     private val firebaseStorage: FirebaseStorage by lazy {
@@ -91,7 +91,7 @@ class FirebaseSource {
             .addOnFailureListener { Log.d("FirebaseSource", "insertUserToDB Fail") }
     }
 
-    fun updateUserToken(){
+    fun updateUserToken() {
         firebaseInstanceId.instanceId
             .addOnCompleteListener(OnCompleteListener { task ->
                 if (!task.isSuccessful) {
@@ -104,16 +104,17 @@ class FirebaseSource {
                     .collection("users")
                     .document(currentUser()!!.uid)
                     .update("token", token)
-                    .addOnSuccessListener { Log.d("FirebaseSource", "updateUserToken Success")  }
-                    .addOnFailureListener { Log.d("FirebaseSource", "updateUserToken Fail")  }
+                    .addOnSuccessListener { Log.d("FirebaseSource", "updateUserToken Success") }
+                    .addOnFailureListener { Log.d("FirebaseSource", "updateUserToken Fail") }
             })
     }
 
-    fun uploadPost(filePath: String) {
+    fun uploadPost(file: File) {
         liveUploadState.value = Status.LOADING
-        var file = Uri.fromFile(File(filePath))
+        var file = Uri.fromFile(file)
         val riversRef = firebaseStorage.reference.child("images/${file.lastPathSegment}")
         val uploadTask = riversRef.putFile(file)
+
         uploadTask.addOnFailureListener {
             liveUploadState.value = Status.FAILURE
         }.addOnSuccessListener {
@@ -138,11 +139,42 @@ class FirebaseSource {
         }
     }
 
+//    fun uploadPost(filePath: String) {
+//        liveUploadState.value = Status.LOADING
+//        var file = Uri.fromFile(File(filePath))
+//        val riversRef = firebaseStorage.reference.child("images/${file.lastPathSegment}")
+//        val uploadTask = riversRef.putFile(file)
+//        uploadTask.addOnFailureListener {
+//            liveUploadState.value = Status.FAILURE
+//        }.addOnSuccessListener {
+//            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+//            // ...
+//            riversRef.downloadUrl.addOnSuccessListener {
+//                Log.d("FirebaseSource", it.toString())
+//                val post = Post(userId = currentUser()!!.uid, imgUrl = it.toString())
+//                firebaseFirestore
+//                    .collection("posts")
+//                    .add(post)
+//                    .addOnSuccessListener {
+//                        liveUploadState.value = Status.SUCCESS
+//                        it.update("timeStamp", FieldValue.serverTimestamp())
+//
+//                        firebaseFirestore
+//                            .collection("users")
+//                            .document(currentUser()!!.uid)
+//                            .update("post_ids", FieldValue.arrayUnion(it.id))
+//                    }
+//            }
+//        }
+//    }
+
     fun loadAllPosts() = Observable.create<List<Post>> { emitter ->
-        firebaseFirestore
+        var query = firebaseFirestore
             .collection("posts")
-            .orderBy("timeStamp", Query.Direction.DESCENDING)
-            .get()
+            .orderBy("timeStamp", Query.Direction.ASCENDING)
+            .limit(50)
+
+        query.get()
             .addOnSuccessListener { documnets ->
                 val list: ArrayList<Post> = ArrayList()
                 for (documnet in documnets) {
@@ -156,6 +188,14 @@ class FirebaseSource {
                     }
                 }
                 emitter.onNext(list)
+
+//                //5개씩 페이징.
+//                val lastVisible = documnets.documents[documnets.size() - 1]
+//                query = firebaseFirestore
+//                    .collection("posts")
+//                    .orderBy("timeStamp", Query.Direction.ASCENDING)
+//                    .startAfter(lastVisible)
+//                    .limit(5)
             }
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -310,7 +350,7 @@ class FirebaseSource {
             .update("dislike_post_ids", FieldValue.arrayUnion(postId)) //dislike_post_ids배열에 싫어요한 post의 id를 추가함
     }
 
-    fun sendNotification(userId: String, postId: String){
+    fun sendNotification(userId: String, postId: String) {
         val apiKey = Secret.google_fcm_key
         firebaseFirestore
             .collection("users")
@@ -319,7 +359,7 @@ class FirebaseSource {
             .addOnSuccessListener { it ->
                 val JSON = "application/json; charset=utf-8".toMediaTypeOrNull()
                 val token = it.get("token").toString()
-                Log.d("FirebaseSource token=",token)
+                Log.d("FirebaseSource token=", token)
 
                 val json = JSONObject()
                 val notiJson = JSONObject()
@@ -337,21 +377,20 @@ class FirebaseSource {
 
                 val request = Request.Builder()
                     .url("https://fcm.googleapis.com/fcm/send")
-                    .header("Content-Type","application/json")
-                    .addHeader("Authorization","key="+apiKey)
+                    .header("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=" + apiKey)
                     .post(body)
                     .build()
 
-                okHttpClient.newCall(request).enqueue(object: Callback{
+                okHttpClient.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         Log.d("FirebaseSource", "sendNotification Fail")
                     }
 
                     override fun onResponse(call: Call, response: Response) {
-                        if(response.isSuccessful){
+                        if (response.isSuccessful) {
                             Log.d("FirebaseSource", "sendNotification Success")
-                        }
-                        else{
+                        } else {
                             Log.d("FirebaseSource", "sendNoti Suc,Fail")
                             Log.d("FirebaseSource", response.code.toString() + ", " + response.message)
                         }

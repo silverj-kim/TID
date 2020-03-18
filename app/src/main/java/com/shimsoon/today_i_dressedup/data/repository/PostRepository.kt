@@ -1,6 +1,7 @@
 package com.shimsoon.today_i_dressedup.data.repository
 
 import com.shimsoon.today_i_dressedup.data.firebase.FirebaseSource
+import java.io.File
 
 class PostRepository(private val firebase: FirebaseSource) {
 
@@ -17,8 +18,8 @@ class PostRepository(private val firebase: FirebaseSource) {
             }
     }
 
-    fun uploadPost(filePath: String) {
-        firebase.uploadPost(filePath)
+    fun uploadPost(file: File) {
+        firebase.uploadPost(file)
     }
 
 

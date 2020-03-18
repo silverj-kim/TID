@@ -11,7 +11,7 @@ import com.shimsoon.today_i_dressedup.R
 import com.shimsoon.today_i_dressedup.data.Post
 import com.shimsoon.today_i_dressedup.ui.postDetail.PostDetailActivity
 
-class CardStackAdapter(private var posts: List<Post> = emptyList()) :
+class CardStackAdapter(private var posts: List<Post> = ArrayList()) :
     RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,6 +38,11 @@ class CardStackAdapter(private var posts: List<Post> = emptyList()) :
         this.posts = posts
         notifyDataSetChanged()
     }
+
+//    fun addPosts(posts: List<Post>){
+//        this.posts.addAll(posts)
+//        notifyDataSetChanged()
+//    }
 
     fun getPosts(): List<Post> {
         return posts

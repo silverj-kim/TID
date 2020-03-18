@@ -9,12 +9,14 @@ import androidx.lifecycle.ViewModelProviders
 import com.shimsoon.today_i_dressedup.R
 import com.shimsoon.today_i_dressedup.databinding.ActivityLoginBinding
 import com.shimsoon.today_i_dressedup.util.startHomeActivity
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(), AuthListener {
 
     private lateinit var authViewModel: AuthViewModel
-//    private lateinit var factory: AuthViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

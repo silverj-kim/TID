@@ -98,8 +98,7 @@ class PostActivity : AppCompatActivity(), PostClickListener {
     }
 
     private fun initViewModel() {
-        val factory = PostViewModelFactory(PostRepository.getInstance())
-        postViewModel = ViewModelProviders.of(this, factory).get(PostViewModel::class.java)
+        postViewModel = ViewModelProviders.of(this).get(PostViewModel::class.java)
     }
 
     private fun initView() {
@@ -118,5 +117,10 @@ class PostActivity : AppCompatActivity(), PostClickListener {
         val intent = Intent(this, PostDetailActivity::class.java)
         intent.putExtra("post", post)
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
     }
 }

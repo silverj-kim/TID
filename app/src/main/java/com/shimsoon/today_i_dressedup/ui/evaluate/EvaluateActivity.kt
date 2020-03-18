@@ -89,7 +89,9 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
 
     override fun onCardSwiped(direction: Direction?) {
         //현재 포지션의 이전 포스트가 스와이프 된 것이기 때문에 -1 포지션의 id를 인자로 넘겨줌.
-        val post = adapter.getPosts()[manager.topPosition - 1]
+        val idx = manager.topPosition - 1
+        val post = adapter.getPosts()[idx]
+
         when (direction) {
             Direction.Right -> {
                 evaluateViewModel.likePost(post.id)
@@ -101,6 +103,8 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
                 evaluateViewModel.sendNotification(post.userId, post.id)
             }
         }
+
+        if (idx == adapter.itemCount - 1) loadAllPosts()
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {

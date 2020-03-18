@@ -27,13 +27,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-            <!--<com.google.android.material.button.MaterialButton-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--style="@style/Widget.MaterialComponents.Button.TextButton"-->
-            <!--android:onClick="@{(v) -> viewmodel.logout(v)}"-->
-            <!--android:text="Logout"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"/>-->
+            <com.google.android.material.button.MaterialButton
+            android:layout_alignParentRight="true"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:onClick="@{(v) -> viewmodel.logout(v)}"
+            android:text="Logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
         </RelativeLayout>
