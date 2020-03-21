@@ -1,7 +1,6 @@
 package com.shimsoon.today_i_dressedup.ui.myPage
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -9,32 +8,20 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.annotation.MainThread
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
-import com.esafirm.imagepicker.model.Image
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.shimsoon.today_i_dressedup.R
 import com.shimsoon.today_i_dressedup.data.Status
 import com.shimsoon.today_i_dressedup.ui.postList.PostActivity
-import com.squareup.okhttp.Dispatcher
-import id.zelory.compressor.Compressor
-import id.zelory.compressor.constraint.default
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_my_page.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.io.File
 
 class MyPageActivity : AppCompatActivity() {
@@ -46,8 +33,8 @@ class MyPageActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
 
     private lateinit var myPageViewModel: MyPageViewModel
-
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
+
     companion object {
         const val PUT_EXTRA_KEY = "request_type"
         const val PUT_EXTRA_FOR_MY_FASHION = 100
@@ -59,7 +46,6 @@ class MyPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page)
         initView()
-        observe()
     }
 
     private fun observe() {
@@ -134,16 +120,19 @@ class MyPageActivity : AppCompatActivity() {
             val images = ImagePicker.getImages(data)
             for (image in images) {
                 Log.d("picked", image.path)
-                //memoId는 MemoListActivity에서 memo를 db에 저장한 후 리턴되는 id값을 이용해서 다시 세팅함.
+
+                //이미지 압축 후 스토리지에 업로드.
                 val disposable = myPageViewModel
                     .compressFile(File(image.path))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe ({
+                    .subscribe({
                         myPageViewModel.uploadPostToServer(it)
-                    }){
+                        observe()
+                    }) {
                         Log.e("MyPageActivity", "Image Compression error")
                     }
+
                 compositeDisposable.add(disposable)
             }
         }

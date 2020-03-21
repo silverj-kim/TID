@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shimsoon.today_i_dressedup.R
 import com.shimsoon.today_i_dressedup.data.Post
-import com.shimsoon.today_i_dressedup.data.repository.PostRepository
 import com.shimsoon.today_i_dressedup.ui.myPage.MyPageActivity
 import com.shimsoon.today_i_dressedup.ui.postDetail.PostDetailActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -40,10 +39,10 @@ class PostActivity : AppCompatActivity(), PostClickListener {
                 loadMyPost()
             }
             MyPageActivity.PUT_EXTRA_FOR_LIKE_FASHION -> {
-                loadPostILiked()
+                loadPostLiked()
             }
             MyPageActivity.PUT_EXTRA_FOR_DISLIKE_FASHION -> {
-                loadPostIDisliked()
+                loadPostDisliked()
             }
         }
     }
@@ -67,9 +66,9 @@ class PostActivity : AppCompatActivity(), PostClickListener {
         disposables.add(disposable)
     }
 
-    private fun loadPostILiked() {
+    private fun loadPostLiked() {
         val disposable = postViewModel
-            .loadPostILiked()
+            .loadPostLiked()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -82,9 +81,9 @@ class PostActivity : AppCompatActivity(), PostClickListener {
         disposables.add(disposable)
     }
 
-    private fun loadPostIDisliked() {
+    private fun loadPostDisliked() {
         val disposable = postViewModel
-            .loadPostIDisliked()
+            .loadPostDisliked()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

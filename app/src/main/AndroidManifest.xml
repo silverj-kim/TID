@@ -16,32 +16,39 @@
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
                 android:value="ca-app-pub-7264194476227331~5762708126"/>
 
-        <service
-                android:name="com.shimsoon.today_i_dressedup.data.firebase.MyFirebaseInstanceIdService">
+        <service android:name=".data.firebase.MyFirebaseInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
 
-        <activity android:name="com.shimsoon.today_i_dressedup.ui.postDetail.PostDetailActivity"
-                  android:parentActivityName="com.shimsoon.today_i_dressedup.ui.postList.PostActivity">
-        </activity>
-        <activity android:name="com.shimsoon.today_i_dressedup.ui.postList.PostActivity"
-                  android:parentActivityName="com.shimsoon.today_i_dressedup.ui.myPage.MyPageActivity">
-        </activity>
-        <activity android:name="com.shimsoon.today_i_dressedup.ui.auth.LoginActivity">
+        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.shimsoon.today_i_dressedup.ui.auth.SignUpActivity">
+
+        <activity
+                android:name=".ui.postDetail.PostDetailActivity"
+                android:parentActivityName=".ui.postList.PostActivity">
         </activity>
-        <activity android:name="com.shimsoon.today_i_dressedup.ui.myPage.MyPageActivity"
-                  android:parentActivityName="com.shimsoon.today_i_dressedup.ui.evaluate.EvaluateActivity">
+        <activity
+                android:name=".ui.postList.PostActivity"
+                android:parentActivityName=".ui.myPage.MyPageActivity">
         </activity>
-        <activity android:name="com.shimsoon.today_i_dressedup.ui.evaluate.EvaluateActivity">
+        <activity android:name=".ui.auth.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.auth.SignUpActivity">
+        </activity>
+        <activity
+                android:name=".ui.myPage.MyPageActivity"
+                android:parentActivityName=".ui.evaluate.EvaluateActivity">
+        </activity>
+        <activity android:name=".ui.evaluate.EvaluateActivity">
         </activity>
     </application>
 

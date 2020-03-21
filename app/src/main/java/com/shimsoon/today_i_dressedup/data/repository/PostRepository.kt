@@ -25,9 +25,9 @@ class PostRepository(private val firebase: FirebaseSource) {
 
     fun loadMyPost() = firebase.loadMyPost()
 
-    fun loadPostILiked() = firebase.loadPostILiked()
+    fun loadPostLiked() = firebase.loadPostILiked()
 
-    fun loadPostIDisliked() = firebase.loadPostIDisliked()
+    fun loadPostDisliked() = firebase.loadPostIDisliked()
 
     fun loadAllPost() = firebase.loadAllPosts()
 

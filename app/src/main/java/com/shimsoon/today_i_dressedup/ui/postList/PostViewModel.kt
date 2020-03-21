@@ -9,8 +9,8 @@ class PostViewModel : ViewModel() {
 
     fun loadMyPost() = postRepository.loadMyPost()
 
-    fun loadPostILiked() = postRepository.loadPostILiked()
+    fun loadPostLiked() = postRepository.loadPostLiked()
 
-    fun loadPostIDisliked() = postRepository.loadPostIDisliked()
+    fun loadPostDisliked() = postRepository.loadPostDisliked()
 
 }
