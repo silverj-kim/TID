@@ -6,15 +6,31 @@ import backImg from '../assets/images/back.png';
 import goodImg from '../assets/images/green.png';
 import badImg from '../assets/images/red.png';
 import {fashionScreen} from './style';
+import ImagePicker from 'react-native-image-picker';
 
 export default function FashionScreen() {
+  _handleButtonPress = () => {
+    const options = {
+      title: 'Select TID image',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.launchImageLibrary(options, res => {
+      console.log(res);
+    });
+  };
   return (
     <View style={fashionScreen.container}>
-      <View style={fashionScreen.container}>
-        <TouchableOpacity style={fashionScreen.profileIconWrapper}>
-          <Image style={fashionScreen.profileIcon} source={profileIcon} />
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        onPress={this._handleButtonPress}
+        style={fashionScreen.plusWrapper}>
+        <Text style={fashionScreen.plus}>{'+'}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={fashionScreen.profileIconWrapper}>
+        <Image style={fashionScreen.profileIcon} source={profileIcon} />
+      </TouchableOpacity>
       <CardStack
         style={fashionScreen.cardStack}
         renderNoMoreCards={() => (

@@ -3,6 +3,8 @@ import {StyleSheet} from 'react-native';
 export const fashionScreen = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 10,
+    paddingBottom: 100,
   },
   cardStack: {
     flex: 5,
@@ -96,6 +98,24 @@ export const fashionScreen = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     marginTop: 10,
+  },
+  plus: {
+    width: '100%',
+    height: '100%',
+    fontSize: 40,
+    color: 'white',
+    textAlign: 'center',
+  },
+  plusWrapper: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#20639b',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 50,
+    right: 20,
   },
 });
 
