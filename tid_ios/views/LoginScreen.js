@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity, Alert} from 'react-native';
 import {loginScreen} from './style';
-import firebase from 'react-native-firebase';
+import auth from '@react-native-firebase/auth';
 import {storeData, retrieveData} from '../utils/async-storage-manager';
 
 export default function LoginScreen({navigation}) {
@@ -14,9 +14,7 @@ export default function LoginScreen({navigation}) {
         Alert.alert('올바른 이메일을 입력해주세요.');
       } else {
         try {
-          const res = await firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password);
+          const res = await auth().signInWithEmailAndPassword(email, password);
           console.log(res);
           console.log(res.user);
           console.log(res.user._user);
@@ -35,9 +33,7 @@ export default function LoginScreen({navigation}) {
   };
   const signup = async () => {
     try {
-      const res = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password);
+      const res = await auth().createUserWithEmailAndPassword(email, password);
     } catch (err) {
       if (err.code) {
         Alert.alert(err.code);
@@ -48,7 +44,7 @@ export default function LoginScreen({navigation}) {
   };
   const findPassword = async () => {
     try {
-      const res = await firebase.auth().sendPasswordResetEmail(email);
+      const res = await auth().sendPasswordResetEmail(email);
       Alert.alert('check your mail');
     } catch (err) {
       Alert.alert('failed to send reset password mail');

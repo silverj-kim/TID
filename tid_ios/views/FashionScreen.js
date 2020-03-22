@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import CardStack, {Card} from 'react-native-card-stack-swiper';
+import {map} from 'lodash';
 import profileIcon from '../assets/images/user.png';
 import backImg from '../assets/images/back.png';
 import goodImg from '../assets/images/green.png';
@@ -20,7 +21,10 @@ export default class FashionScreen extends React.Component {
       .collection('posts')
       .get();
     console.log('[documentSnapshot]');
-    console.log(documentSnapshot);
+    console.log(documentSnapshot.docs);
+    this.setState({
+      data: documentSnapshot.docs,
+    });
   }
 
   _handleButtonPress = () => {
@@ -74,21 +78,19 @@ export default class FashionScreen extends React.Component {
           verticalSwipe={false}
           onSwiped={() => console.log('onSwiped')}
           onSwipedLeft={() => console.log('onSwipedLeft')}>
-          <Card style={[fashionScreen.card]}>
-            <Text style={fashionScreen.label}>A</Text>
-          </Card>
-          <Card style={[fashionScreen.card, fashionScreen.card2]}>
-            <Text style={fashionScreen.label}>B</Text>
-          </Card>
-          <Card style={[fashionScreen.card, fashionScreen.card1]}>
-            <Text style={fashionScreen.label}>C</Text>
-          </Card>
-          <Card style={[fashionScreen.card, fashionScreen.card2]}>
-            <Text style={fashionScreen.label}>D</Text>
-          </Card>
-          <Card style={[fashionScreen.card, fashionScreen.card1]}>
-            <Text style={fashionScreen.label}>E</Text>
-          </Card>
+          {map(this.state.data, (v, i) => (
+            <Card key={i} style={[fashionScreen.card, fashionScreen.card1]}>
+              <Image
+                source={{
+                  uri: v.data().imgUrl,
+                }}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                }}
+              />
+            </Card>
+          ))}
         </CardStack>
 
         <View style={fashionScreen.footer}>

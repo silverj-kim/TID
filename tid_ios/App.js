@@ -16,7 +16,7 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.unsubscriber = auth.onAuthStateChanged(user => {
+    this.unsubscriber = auth().onAuthStateChanged(user => {
       if (!isEmpty(user)) {
         this._loadUser(user);
       }
