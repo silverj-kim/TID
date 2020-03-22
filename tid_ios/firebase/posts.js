@@ -1,8 +1,8 @@
-import firebase from 'react-native-firebase';
+import storage from '@react-native-firebase/storage';
 
 export function uploadToFirebase(uri) {
   return new Promise(async (resolve, reject) => {
-    const storageRef = firebase.storage().ref();
+    const storageRef = storage.ref();
     const fileName = uri.split('images/').pop();
     console.log(uri);
     console.log(fileName);

@@ -4,7 +4,7 @@ import {NavigationContainer, CommonActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import FashionScreen from './views/FashionScreen';
 import LoginScreen from './views/LoginScreen';
-import firebase from 'react-native-firebase';
+import auth from '@react-native-firebase/auth';
 import {isEmpty} from 'lodash';
 import {storeData} from './utils/async-storage-manager';
 
@@ -16,7 +16,7 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    this.unsubscriber = firebase.auth().onAuthStateChanged(user => {
+    this.unsubscriber = auth.onAuthStateChanged(user => {
       if (!isEmpty(user)) {
         this._loadUser(user);
       }
