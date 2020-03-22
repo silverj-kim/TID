@@ -36,8 +36,9 @@ target 'tid_ios' do
   
   pod 'Firebase/Analytics'
   pod 'Firebase/Auth', '~> 6.13.0'
-  pod 'Firebase/Database', '~> 6.13.0'
-
+  pod 'Firebase/Firestore', '~> 6.13.0'
+  pod 'Firebase/Storage', '~> 6.13.0'
+  
   target 'tid_iosTests' do
     inherit! :search_paths
     # Pods for testing

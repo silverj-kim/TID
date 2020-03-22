@@ -4,7 +4,7 @@ export const fashionScreen = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 10,
-    paddingBottom: 100,
+    paddingBottom: 40,
   },
   cardStack: {
     flex: 5,
@@ -67,21 +67,13 @@ export const fashionScreen = StyleSheet.create({
     borderRadius: 55,
     marginTop: -15,
   },
-  green: {
+  thumbs: {
     width: 75,
     height: 75,
     backgroundColor: '#fff',
-    borderRadius: 75,
-    borderWidth: 6,
-    borderColor: '#01df8a',
-  },
-  red: {
-    width: 75,
-    height: 75,
-    backgroundColor: '#fff',
-    borderRadius: 75,
-    borderWidth: 6,
-    borderColor: '#fd267d',
+    borderRadius: 40,
+    //  borderWidth: 6,
+    //  borderColor: '#fd267d',
   },
   profileIcon: {
     width: 50,
