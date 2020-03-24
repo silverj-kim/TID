@@ -14,7 +14,7 @@ export const fashionScreen = StyleSheet.create({
   card: {
     width: 320,
     height: 470,
-    backgroundColor: '#FE474C',
+    backgroundColor: '#d3d3d3',
     borderRadius: 5,
     shadowColor: 'rgba(0,0,0,0.5)',
     shadowOffset: {
@@ -22,12 +22,6 @@ export const fashionScreen = StyleSheet.create({
       height: 1,
     },
     shadowOpacity: 0.5,
-  },
-  card1: {
-    backgroundColor: '#FE474C',
-  },
-  card2: {
-    backgroundColor: '#FEB12C',
   },
   label: {
     lineHeight: 400,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, StatusBar} from 'react-native';
 import CardStack, {Card} from 'react-native-card-stack-swiper';
 import {map} from 'lodash';
 import profileIcon from '../assets/images/user.png';
@@ -10,22 +10,42 @@ import {fashionScreen} from './style';
 import ImagePicker from 'react-native-image-picker';
 import firestore from '@react-native-firebase/firestore';
 import {uploadToFirebase} from '../firebase/posts';
+import {STATUS} from '../utils/constant';
 
 export default class FashionScreen extends React.Component {
   state = {
     data: null,
+    status: STATUS.NONE,
   };
 
-  async componentDidMount() {
-    const documentSnapshot = await firestore()
-      .collection('posts')
-      .get();
-    console.log('[documentSnapshot]');
-    console.log(documentSnapshot.docs);
-    this.setState({
-      data: documentSnapshot.docs,
-    });
+  componentDidMount() {
+    this._getData();
   }
+
+  _getData = () => {
+    try {
+      this.setState(
+        {
+          status: STATUS.LOADING,
+        },
+        async () => {
+          const documentSnapshot = await firestore()
+            .collection('posts')
+            .get();
+          console.log('[documentSnapshot]');
+          console.log(documentSnapshot.docs);
+          this.setState({
+            status: STATUS.SUCCESS,
+            data: documentSnapshot.docs,
+          });
+        },
+      );
+    } catch (err) {
+      this.setState({
+        status: STATUS.FAILED,
+      });
+    }
+  };
 
   _handleButtonPress = () => {
     const options = {
@@ -50,6 +70,19 @@ export default class FashionScreen extends React.Component {
     });
   };
   render() {
+    const {status} = this.state;
+
+    console.log('status');
+    console.log(status);
+
+    if (status === STATUS.NONE || status === STATUS.LOADING) {
+      return (
+        <View style={fashionScreen.container}>
+          <Text>{'Loading...'}</Text>
+        </View>
+      );
+    }
+
     return (
       <View style={fashionScreen.container}>
         {/* <TouchableOpacity
@@ -79,7 +112,7 @@ export default class FashionScreen extends React.Component {
           onSwiped={() => console.log('onSwiped')}
           onSwipedLeft={() => console.log('onSwipedLeft')}>
           {map(this.state.data, (v, i) => (
-            <Card key={i} style={[fashionScreen.card, fashionScreen.card1]}>
+            <Card key={i} style={fashionScreen.card}>
               <Image
                 source={{
                   uri: v.data().imgUrl,
