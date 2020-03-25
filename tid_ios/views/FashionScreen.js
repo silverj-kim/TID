@@ -8,9 +8,12 @@ import goodImg from '../assets/images/green.png';
 import badImg from '../assets/images/red.png';
 import {fashionScreen} from './style';
 import ImagePicker from 'react-native-image-picker';
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {uploadToFirebase} from '../firebase/posts';
 import {STATUS} from '../utils/constant';
+
+const FIRESTORE_REF = firestore().collection('posts');
 
 export default class FashionScreen extends React.Component {
   state = {
@@ -29,11 +32,7 @@ export default class FashionScreen extends React.Component {
           status: STATUS.LOADING,
         },
         async () => {
-          const documentSnapshot = await firestore()
-            .collection('posts')
-            .get();
-          console.log('[documentSnapshot]');
-          console.log(documentSnapshot.docs);
+          const documentSnapshot = await FIRESTORE_REF.get();
           this.setState({
             status: STATUS.SUCCESS,
             data: documentSnapshot.docs,
@@ -69,6 +68,36 @@ export default class FashionScreen extends React.Component {
       }
     });
   };
+
+  _dislike = async idx => {
+    try {
+      const {data} = this.state;
+      const docRef = FIRESTORE_REF.doc(data[idx].id);
+      await docRef.update({
+        numOfDislike: firestore.FieldValue.increment(1),
+        timeStamp: firestore.FieldValue.serverTimestamp(),
+        voters: firestore.FieldValue.arrayUnion(auth().currentUser.uid),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  _like = async idx => {
+    try {
+      const {data} = this.state;
+      const docRef = FIRESTORE_REF.doc(data[idx].id);
+      console.log(auth().currentUser.uid);
+      await docRef.update({
+        numOfLike: firestore.FieldValue.increment(1),
+        timeStamp: firestore.FieldValue.serverTimestamp(),
+        voters: firestore.FieldValue.arrayUnion(auth().currentUser.uid),
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   render() {
     const {status} = this.state;
 
@@ -109,8 +138,8 @@ export default class FashionScreen extends React.Component {
             this.swiper = swiper;
           }}
           verticalSwipe={false}
-          onSwiped={() => console.log('onSwiped')}
-          onSwipedLeft={() => console.log('onSwipedLeft')}>
+          onSwipedLeft={idx => this._dislike(idx)}
+          onSwipedRight={idx => this._like(idx)}>
           {map(this.state.data, (v, i) => (
             <Card key={i} style={fashionScreen.card}>
               <Image
