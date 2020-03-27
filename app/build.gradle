@@ -19,8 +19,8 @@ android {
         applicationId "com.shimsoon.today_i_dressedup"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 2
-        versionName "2.0"
+        versionCode 10
+        versionName "10.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resValue "string", "google_fcm_key", properties.getProperty("google.fcm.key", "")
     }

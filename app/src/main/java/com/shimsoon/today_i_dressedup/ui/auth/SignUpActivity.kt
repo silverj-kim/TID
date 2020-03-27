@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.activity_signup.*
 class SignUpActivity : AppCompatActivity(), AuthListener {
 
     private lateinit var authViewModel: AuthViewModel
-//    private lateinit var factory: AuthViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +24,6 @@ class SignUpActivity : AppCompatActivity(), AuthListener {
     }
 
     fun init() {
-//        factory = AuthViewModelFactory(UserRepository.getInstance())
         authViewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         val binding: ActivitySignupBinding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
         binding.viewmodel = authViewModel

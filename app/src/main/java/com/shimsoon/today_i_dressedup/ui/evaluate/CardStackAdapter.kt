@@ -39,11 +39,6 @@ class CardStackAdapter(private var posts: List<Post> = ArrayList()) :
         notifyDataSetChanged()
     }
 
-//    fun addPosts(posts: List<Post>){
-//        this.posts.addAll(posts)
-//        notifyDataSetChanged()
-//    }
-
     fun getPosts(): List<Post> {
         return posts
     }

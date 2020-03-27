@@ -25,7 +25,6 @@ class LoginActivity : AppCompatActivity(), AuthListener {
     }
 
     private fun init() {
-//        factory = AuthViewModelFactory(UserRepository.getInstance())
         authViewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         val binding: ActivityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewmodel = authViewModel

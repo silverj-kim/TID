@@ -120,7 +120,6 @@ class MyPageActivity : AppCompatActivity() {
             val images = ImagePicker.getImages(data)
             for (image in images) {
                 Log.d("picked", image.path)
-
                 //이미지 압축 후 스토리지에 업로드.
                 val disposable = myPageViewModel
                     .compressFile(File(image.path))

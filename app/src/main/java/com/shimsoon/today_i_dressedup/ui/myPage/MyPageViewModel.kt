@@ -30,13 +30,6 @@ class MyPageViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun loadPostsILiked() {
-
-    }
-
-    fun loadPostsIDisliked() {
-
-    }
 
     fun loadMyPosts() {
         postRepository.loadMyPost()

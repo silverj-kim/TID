@@ -302,7 +302,7 @@ class FirebaseSource {
             .get()
             .addOnSuccessListener { document ->
                 val updates = hashMapOf<String, Any>(
-                    "numOfLike" to document.get("numOfLike") as Long + 1,
+                    "numOfLike" to FieldValue.increment(1),
                     "timeStamp" to FieldValue.serverTimestamp()
                 )
                 firebaseFirestore.collection("posts")

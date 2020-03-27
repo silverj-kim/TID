@@ -104,7 +104,7 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
             }
         }
 
-        if (idx == adapter.itemCount - 1) loadAllPosts()
+//        if (idx == adapter.itemCount - 1) loadAllPosts()
     }
 
     override fun onCardDisappeared(view: View?, position: Int) {
