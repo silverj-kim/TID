@@ -139,34 +139,6 @@ class FirebaseSource {
         }
     }
 
-//    fun uploadPost(filePath: String) {
-//        liveUploadState.value = Status.LOADING
-//        var file = Uri.fromFile(File(filePath))
-//        val riversRef = firebaseStorage.reference.child("images/${file.lastPathSegment}")
-//        val uploadTask = riversRef.putFile(file)
-//        uploadTask.addOnFailureListener {
-//            liveUploadState.value = Status.FAILURE
-//        }.addOnSuccessListener {
-//            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-//            // ...
-//            riversRef.downloadUrl.addOnSuccessListener {
-//                Log.d("FirebaseSource", it.toString())
-//                val post = Post(userId = currentUser()!!.uid, imgUrl = it.toString())
-//                firebaseFirestore
-//                    .collection("posts")
-//                    .add(post)
-//                    .addOnSuccessListener {
-//                        liveUploadState.value = Status.SUCCESS
-//                        it.update("timeStamp", FieldValue.serverTimestamp())
-//
-//                        firebaseFirestore
-//                            .collection("users")
-//                            .document(currentUser()!!.uid)
-//                            .update("post_ids", FieldValue.arrayUnion(it.id))
-//                    }
-//            }
-//        }
-//    }
 
     fun loadAllPosts() = Observable.create<List<Post>> { emitter ->
         var query = firebaseFirestore
