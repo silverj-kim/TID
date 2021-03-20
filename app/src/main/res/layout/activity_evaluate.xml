@@ -64,9 +64,9 @@
                     android:id="@+id/button_container"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginBottom="8dp"
                     android:layout_height="80dp"
-                    android:layout_above="@+id/evaluateActivity_adView"
                     android:clipChildren="false">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -119,17 +119,17 @@
                     android:clipToPadding="false">
             </com.yuyakaido.android.cardstackview.CardStackView>
 
-            <com.google.android.gms.ads.AdView
+<!--            <com.google.android.gms.ads.AdView-->
 
-                    xmlns:ads="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/evaluateActivity_adView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    ads:adSize="BANNER"
-                    ads:adUnitId="ca-app-pub-7264194476227331/1588864676">
-            </com.google.android.gms.ads.AdView>
+<!--                    xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+<!--                    android:id="@+id/evaluateActivity_adView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerHorizontal="true"-->
+<!--                    android:layout_alignParentBottom="true"-->
+<!--                    ads:adSize="BANNER"-->
+<!--                    ads:adUnitId="ca-app-pub-7264194476227331/1588864676">-->
+<!--            </com.google.android.gms.ads.AdView>-->
 
         </RelativeLayout>
 

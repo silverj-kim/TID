@@ -9,22 +9,17 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
-import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
 import com.shimsoon.today_i_dressedup.R
 import com.shimsoon.today_i_dressedup.data.Status
 import com.shimsoon.today_i_dressedup.databinding.ActivityEvaluateBinding
 import com.shimsoon.today_i_dressedup.ui.myPage.MyPageActivity
 import com.yuyakaido.android.cardstackview.*
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_evaluate.*
 
 class EvaluateActivity : AppCompatActivity(), CardStackListener {
@@ -80,11 +75,11 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
             }
         }
 
-        adView = evaluateActivity_adView
-        MobileAds.initialize(this) {
-            val adRequest = AdRequest.Builder().build()
-            adView.loadAd(adRequest)
-        }
+//        adView = evaluateActivity_adView
+//        MobileAds.initialize(this) {
+//            val adRequest = AdRequest.Builder().build()
+//            adView.loadAd(adRequest)
+//        }
     }
 
     override fun onCardSwiped(direction: Direction?) {
@@ -161,7 +156,7 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
     private fun loadAllPosts() {
         evaluateViewModel.loadAllPosts()
         evaluateViewModel.statusLiveData.observe(this, Observer {
-            when(it){
+            when (it) {
                 Status.SUCCESS -> {
                     hideProgressBar()
                 }
@@ -175,9 +170,9 @@ class EvaluateActivity : AppCompatActivity(), CardStackListener {
         })
 
         evaluateViewModel.posts.observe(this, Observer {
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
                 showNoItemTextView()
-            }else{
+            } else {
                 hideNoItemTextView()
                 adapter.setPosts(it)
             }

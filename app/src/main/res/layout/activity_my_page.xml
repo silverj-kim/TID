@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"/>
 
     <LinearLayout
+            android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -24,21 +25,23 @@
         <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/myPageActivity_btn_myUpload"
-                android:text="내가 업로드한 패션"
+                android:text="@string/my_upload_post"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/myPageActivity_btn_likeFashion"
-                android:text="내가 좋아요 누른 패션"
+                android:text="@string/post_liked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         <com.google.android.material.button.MaterialButton
+                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:id="@+id/myPageActivity_btn_dislikeFashion"
-                android:text="내가 싫어요 누른 패션"
+                android:text="@string/post_disliked"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -48,7 +51,7 @@
             android:id="@+id/myPageActivity_fab_add"
             android:layout_margin="20dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:src="@drawable/baseline_add_white_18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

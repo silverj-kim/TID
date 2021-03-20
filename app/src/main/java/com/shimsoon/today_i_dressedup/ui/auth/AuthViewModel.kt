@@ -1,9 +1,14 @@
 package com.shimsoon.today_i_dressedup.ui.auth
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.shimsoon.today_i_dressedup.R
 import com.shimsoon.today_i_dressedup.data.repository.UserRepository
+import com.shimsoon.today_i_dressedup.network.NetworkState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -15,6 +20,7 @@ class AuthViewModel : ViewModel() {
     //email and password for the input
     var email: String? = null
     var password: String? = null
+    var gender: Int? = null
 
     //auth listener
     var authListener: AuthListener? = null
@@ -30,7 +36,7 @@ class AuthViewModel : ViewModel() {
     fun login() {
         //validating email and password
         if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
-            authListener?.onFailure("Invalid email or password")
+            authListener?.onFailure("이메일과 패스워드를 모두 입력해주세요.")
             return
         }
 
@@ -54,12 +60,21 @@ class AuthViewModel : ViewModel() {
 
     //Doing same thing with signup
     fun signup() {
-        if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
-            authListener?.onFailure("Please input all values")
+        if (email.isNullOrEmpty() || password.isNullOrEmpty() || gender == null) {
+            authListener?.onFailure("모든 필드를 입력해주세요.")
             return
         }
+        val gender = when(gender){
+            R.id.radio_button_male -> {
+                Gender.MALE
+            }
+            else -> {
+                Gender.FEMALE
+            }
+        }
+        Log.d("AuthViewModel", gender.name)
         authListener?.onStarted()
-        val disposable = repository.register(email!!, password!!)
+        val disposable = repository.register(email!!, password!!, gender.name)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

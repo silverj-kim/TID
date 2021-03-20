@@ -1,138 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
                 name="viewmodel"
-                type="com.shimsoon.today_i_dressedup.ui.auth.AuthViewModel"/>
+                type="com.shimsoon.today_i_dressedup.ui.auth.AuthViewModel" />
     </data>
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#008577"
-            android:orientation="vertical"
-            tools:context=".ui.auth.LoginActivity"
-            android:scrollbarAlwaysDrawVerticalTrack="true">
+            android:layout_height="match_parent">
 
-        <RelativeLayout
-                android:id="@+id/loginLayout"
-                android:layout_centerInParent="true"
+        <TextView
+                android:layout_marginBottom="30dp"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:text="@string/login"
+                app:layout_constraintBottom_toTopOf="@id/linear_layout_input"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        <LinearLayout
+                android:layout_margin="16dp"
+                android:id="@+id/linear_layout_input"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <TextView
-                    android:id="@+id/login_title"
-                    android:layout_width="fill_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outlinedTextField"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:gravity="center_horizontal"
-                    android:text="Account Login"
-                    android:textColor="#fff"
-                    android:textSize="26sp"
-                    android:textStyle="bold"/>
+                    android:hint="@string/email"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-            <RelativeLayout
-                    android:layout_width="fill_parent"
+                <com.google.android.material.textfield.TextInputEditText
+                        android:text="@={viewmodel.email}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outlinedPasswordTextField"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/login_title"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginTop="70dp"
-                    android:background="#fff"
-                    android:elevation="4dp"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:hint="@string/password"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingTop="30dp">
+                <com.google.android.material.textfield.TextInputEditText
+                        android:text="@={viewmodel.password}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <TextView
-                            android:labelFor="@id/text_email"
-                            android:text="email"
-                            android:fontFamily="sans-serif-light"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+        </LinearLayout>
 
-                    <EditText
-                            android:id="@+id/text_email"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:drawablePadding="10dp"
-                            android:singleLine="true"
-                            android:text="@={viewmodel.email}"
-                            android:layout_marginBottom="10dp"
-                            android:hint="john@gmail.com"
-                            android:inputType="textEmailAddress"/>
+        <Button
+                android:id="@+id/button_login"
+                android:onClick="@{() -> viewmodel.login()}"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linear_layout_input"
+                android:text="@string/login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                    <TextView
-                            android:labelFor="@id/edit_text_password"
-                            android:text="password"
-                            android:fontFamily="sans-serif-light"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+        </Button>
 
-                    <EditText
-                            android:drawablePadding="10dp"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@={viewmodel.password}"
-                            android:id="@+id/edit_text_password"
-                            android:hint="Password"
-                            android:inputType="textPassword"/>
-
-
-                    <TextView
-                            android:id="@+id/text_view_forget_password"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:paddingTop="5dp"
-                            android:text="Forgot Password?"/>
-
-
-                    <Button
-                            android:id="@+id/button_sign_in"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="22dp"
-                            android:onClick="@{() -> viewmodel.login()}"
-                            android:background="#d67601"
-                            android:text="로그인"
-                            android:textAllCaps="false"
-                            android:textColor="#fff"
-                            android:textSize="18sp"/>
-
-                    <TextView
-                            android:id="@+id/text_view_register"
-                            android:layout_gravity="center_horizontal"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                            android:textAlignment="center"
-                            android:onClick="@{(v) -> viewmodel.goToSignup(v)}"
-                            android:text="계정이 없으신가요?"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                </LinearLayout>
-
-            </RelativeLayout>
-
-
-        </RelativeLayout>
-
-        <ProgressBar
-                android:id="@+id/progressbar"
-                android:visibility="gone"
-                android:layout_centerInParent="true"
+        <TextView
+                android:onClick="@{(v) -> viewmodel.goToSignup(v)}"
+                android:padding="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/sign_up_text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-    </RelativeLayout>
+        <ProgressBar
+                android:id="@+id/progress_bar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </layout>

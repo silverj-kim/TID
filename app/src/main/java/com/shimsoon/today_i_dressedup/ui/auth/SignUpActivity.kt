@@ -12,10 +12,10 @@ import com.shimsoon.today_i_dressedup.databinding.ActivitySignupBinding
 import com.shimsoon.today_i_dressedup.util.startHomeActivity
 import kotlinx.android.synthetic.main.activity_signup.*
 
-
 class SignUpActivity : AppCompatActivity(), AuthListener {
 
     private lateinit var authViewModel: AuthViewModel
+    private lateinit var binding: ActivitySignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,31 +25,31 @@ class SignUpActivity : AppCompatActivity(), AuthListener {
 
     fun init() {
         authViewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
-        val binding: ActivitySignupBinding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_signup)
         binding.viewmodel = authViewModel
         authViewModel.authListener = this
     }
 
     override fun onStarted() {
-        showProgressBar()
+        displayProgressBar(true)
     }
 
     override fun onSuccess() {
-        hideProgressBar()
+        displayProgressBar(false)
         startHomeActivity()
     }
 
     override fun onFailure(message: String) {
-        hideProgressBar()
+        displayProgressBar(false)
         Log.d("SignupActivity", message)
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun showProgressBar() {
-        progressbar.visibility = View.VISIBLE
-    }
-
-    private fun hideProgressBar() {
-        progressbar.visibility = View.GONE
+    private fun displayProgressBar(visible: Boolean) {
+        binding.progressBar.visibility = if (visible) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 }

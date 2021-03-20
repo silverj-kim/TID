@@ -6,6 +6,7 @@ data class User(
     val uid: String = "",
     val nickname: String = "",
     val token: String = "",
+    val gender: String = "",
     val post_ids: List<String> = emptyList(),
     val like_post_ids: List<String> = emptyList(),
     val dislike_post_ids: List<String> = emptyList()

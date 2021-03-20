@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">TID</string>
+    <string name="OAUTH_CLIENT_ID">86oidgzZP1Ha2uOMr5uA</string>
+    <string name="OAUTH_CLIENT_SECRET">z7O8onE5Jq</string>
+    <string name="OAUTH_CLIENT_NAME">TID</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="login">로그인</string>
+    <string name="sign_up">회원가입</string>
+    <string name="sign_up_text">계정이 없으신가요?</string>
+    <string name="gender_male">남자</string>
+    <string name="gender_female">여자</string>
+    <string name="my_upload_post">내가 업로드한 포스트</string>
+    <string name="post_liked">내가 좋아요한 포스트</string>
+    <string name="post_disliked">내가 싫어요한 포스트</string>
 </resources>

@@ -21,7 +21,7 @@ class PostAdapter(val postClickListener: PostClickListener, var postList: List<P
 
     override fun onBindViewHolder(p0: PostHolder, p1: Int) {
         val cosmetics = postList[p1]
-        cosmetics?.let {
+        cosmetics.let {
             p0.bind(it, context)
         }
     }

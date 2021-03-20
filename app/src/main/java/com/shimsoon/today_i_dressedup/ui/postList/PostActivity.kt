@@ -75,7 +75,7 @@ class PostActivity : AppCompatActivity(), PostClickListener {
                 postList = it
                 initView()
             }, {
-                Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
             })
 
         disposables.add(disposable)
@@ -90,7 +90,7 @@ class PostActivity : AppCompatActivity(), PostClickListener {
                 postList = it
                 initView()
             }, {
-                Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
             })
 
         disposables.add(disposable)
@@ -101,7 +101,7 @@ class PostActivity : AppCompatActivity(), PostClickListener {
     }
 
     private fun initView() {
-        if (postList.size > 0) {
+        if (postList.isNotEmpty()) {
             postActivity_tv_noItem.visibility = View.GONE
         } else {
             postActivity_tv_noItem.visibility = View.VISIBLE

@@ -39,7 +39,7 @@ class EvaluateViewModel : ViewModel() {
         statusLiveData.value = Status.LOADING
         val disposable = postRepository
             .loadAllPost()
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 statusLiveData.value = Status.SUCCESS

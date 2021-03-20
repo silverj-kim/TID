@@ -68,11 +68,11 @@ class FirebaseSource {
         }
     }
 
-    fun register(email: String, password: String) = Completable.create { emitter ->
+    fun register(email: String, password: String, gender: String) = Completable.create { emitter ->
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
             if (!emitter.isDisposed) {
                 if (it.isSuccessful) {
-                    insertUserToDB(it.result!!.user!!.uid)
+                    insertUserToDB(it.result!!.user!!.uid, gender)
                     emitter.onComplete()
                 } else {
                     emitter.onError(it.exception!!)
@@ -81,8 +81,8 @@ class FirebaseSource {
         }
     }
 
-    fun insertUserToDB(userId: String) {
-        val user = User(userId)
+    fun insertUserToDB(userId: String, gender: String) {
+        val user = User(uid = userId, gender = gender)
         firebaseFirestore
             .collection("users")
             .document(userId)
@@ -149,12 +149,12 @@ class FirebaseSource {
         query.get()
             .addOnSuccessListener { documnets ->
                 val list: ArrayList<Post> = ArrayList()
-                for (documnet in documnets) {
-                    val post = documnet.toObject(Post::class.java)
+                for (document in documnets) {
+                    val post = document.toObject(Post::class.java)
                     Log.d("FirebaseSource", post.userId + ", " + currentUser()!!.uid)
                     if (!post.voters.contains(currentUser()!!.uid)) { //내가 이미 투표한 포스트면 제외
                         if (post.userId != currentUser()!!.uid) { //내가 올린 post는 평가화면에서 제외.
-                            post.id = documnet.id
+                            post.id = document.id
                             list.add(post)
                         }
                     }

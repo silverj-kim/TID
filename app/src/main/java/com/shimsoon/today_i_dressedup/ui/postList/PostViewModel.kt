@@ -12,5 +12,4 @@ class PostViewModel : ViewModel() {
     fun loadPostLiked() = postRepository.loadPostLiked()
 
     fun loadPostDisliked() = postRepository.loadPostDisliked()
-
 }
