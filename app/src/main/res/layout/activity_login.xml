@@ -60,6 +60,7 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                        android:inputType="textPassword"
                         android:text="@={viewmodel.password}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
