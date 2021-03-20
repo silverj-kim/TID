@@ -23,7 +23,6 @@ class MyFirebaseInstanceIdService : FirebaseMessagingService() {
 
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
-        Log.d("onMessageReceived", p0.data.get("postId"))
         sendNotification(p0.notification?.body)
     }
 

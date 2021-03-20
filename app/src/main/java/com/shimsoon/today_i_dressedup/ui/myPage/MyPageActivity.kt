@@ -104,7 +104,7 @@ class MyPageActivity : AppCompatActivity() {
             .toolbarFolderTitle("Folder") // folder selection title
             .toolbarImageTitle("Tap to select") // image selection title
             .toolbarArrowColor(Color.BLACK) // Toolbar 'up' arrow color
-            .includeVideo(true) // Show video on image picker
+            .includeVideo(false) // Show video on image picker
             .multi()
             .limit(1) // max images can be selected (99 by default)
             .showCamera(true) // show camera or not (true by default)

@@ -1,54 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.postDetail.PostDetailActivity">
-
-    <ImageView
-            android:layout_margin="8dp"
-            android:id="@+id/postDetailActivity_iv_img"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    <LinearLayout
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
         <ImageView
-                android:src="@drawable/ic_shortcut_thumb_up"
-                android:layout_width="wrap_content"
+                android:layout_margin="8dp"
+                android:id="@+id/postDetailActivity_iv_img"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-        <TextView
-                android:layout_gravity="center_vertical"
-                android:id="@+id/postDetailActivity_tv_numOfLike"
-                android:text="1000"
+
+        <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:src="@drawable/ic_shortcut_thumb_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/postDetailActivity_tv_numOfLike"
+                    android:text="1000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:layout_marginStart="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/text_view_like_ratio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:src="@drawable/ic_shortcut_thumb_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/postDetailActivity_tv_numOfDislike"
+                    android:text="1000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <TextView
+                    android:layout_marginStart="16dp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/text_view_dislike_ratio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <ImageView
-                android:src="@drawable/ic_shortcut_thumb_down"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:layout_gravity="center_vertical"
-                android:id="@+id/postDetailActivity_tv_numOfDislike"
-                android:text="1000"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</layout>

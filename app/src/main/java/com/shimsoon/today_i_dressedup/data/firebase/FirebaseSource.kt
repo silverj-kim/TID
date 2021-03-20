@@ -13,6 +13,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.shimsoon.today_i_dressedup.data.Post
 import com.shimsoon.today_i_dressedup.data.Status
 import com.shimsoon.today_i_dressedup.data.User
+import com.shimsoon.today_i_dressedup.ui.auth.Gender
 import com.shimsoon.today_i_dressedup.util.Secret
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -269,23 +270,20 @@ class FirebaseSource {
     fun likePost(postId: String) {
         //postId의 numOfLike를 +1 해주고 완료시 voters에 현재유저의 id를 추가
         firebaseFirestore
-            .collection("posts")
-            .document(postId)
+            .collection("users")
+            .document(currentUser()!!.uid)
             .get()
-            .addOnSuccessListener { document ->
-                val updates = hashMapOf<String, Any>(
-                    "numOfLike" to FieldValue.increment(1),
-                    "timeStamp" to FieldValue.serverTimestamp()
-                )
+            .addOnSuccessListener {
+                val gender = it.getString("gender") ?: "MALE"
                 firebaseFirestore.collection("posts")
                     .document(postId)
-                    .update(updates)
-                    .addOnSuccessListener {
-                        firebaseFirestore
-                            .collection("posts")
-                            .document(postId)
-                            .update("voters", FieldValue.arrayUnion(currentUser()!!.uid))
-                    }
+                    .update(hashMapOf<String, Any>(
+                        if(Gender.valueOf(gender) == Gender.MALE) "numOfLikeMale" to FieldValue.increment(1) else "numOfLikeFemale" to FieldValue.increment(1),
+                        "numOfLike" to FieldValue.increment(1),
+                        "timeStamp" to FieldValue.serverTimestamp(),
+                        "voters" to FieldValue.arrayUnion(currentUser()!!.uid)
+                    ))
+
             }
 
         firebaseFirestore
@@ -295,31 +293,28 @@ class FirebaseSource {
     }
 
     fun dislikePost(postId: String) {
-        //postId의 numOfDislike를 +1 해주고 완료시 voters에 현재유저의 id를 추가
+        //postId의 numOfLike를 +1 해주고 완료시 voters에 현재유저의 id를 추가
         firebaseFirestore
-            .collection("posts")
-            .document(postId)
+            .collection("users")
+            .document(currentUser()!!.uid)
             .get()
-            .addOnSuccessListener { document ->
-                val updates = hashMapOf<String, Any>(
-                    "numOfDislike" to document.get("numOfDislike") as Long + 1,
-                    "timeStamp" to FieldValue.serverTimestamp()
-                )
+            .addOnSuccessListener {
+                val gender = it.getString("gender") ?: "MALE"
                 firebaseFirestore.collection("posts")
                     .document(postId)
-                    .update(updates)
-                    .addOnSuccessListener {
-                        firebaseFirestore
-                            .collection("posts")
-                            .document(postId)
-                            .update("voters", FieldValue.arrayUnion(currentUser()!!.uid))
-                    }
+                    .update(hashMapOf<String, Any>(
+                        if(Gender.valueOf(gender) == Gender.MALE) "numOfDislikeMale" to FieldValue.increment(1) else "numOfDislikeFemale" to FieldValue.increment(1),
+                        "numOfDislike" to FieldValue.increment(1),
+                        "timeStamp" to FieldValue.serverTimestamp(),
+                        "voters" to FieldValue.arrayUnion(currentUser()!!.uid)
+                    ))
+
             }
 
         firebaseFirestore
             .collection("users")
             .document(currentUser()!!.uid)
-            .update("dislike_post_ids", FieldValue.arrayUnion(postId)) //dislike_post_ids배열에 싫어요한 post의 id를 추가함
+            .update("dislike_post_ids", FieldValue.arrayUnion(postId)) //like_post_ids배열에 좋아요한 post의 id를 추가함
     }
 
     fun sendNotification(userId: String, postId: String) {

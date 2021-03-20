@@ -13,4 +13,5 @@
     <string name="my_upload_post">내가 업로드한 포스트</string>
     <string name="post_liked">내가 좋아요한 포스트</string>
     <string name="post_disliked">내가 싫어요한 포스트</string>
+    <string name="gender_ratio_format">남성 %.1f%% 여성 %.1f%%</string>
 </resources>

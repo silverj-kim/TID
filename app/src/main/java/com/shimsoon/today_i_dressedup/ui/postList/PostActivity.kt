@@ -60,7 +60,7 @@ class PostActivity : AppCompatActivity(), PostClickListener {
                 postList = it
                 initView()
             }, {
-                Toast.makeText(applicationContext, it.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
             })
 
         disposables.add(disposable)

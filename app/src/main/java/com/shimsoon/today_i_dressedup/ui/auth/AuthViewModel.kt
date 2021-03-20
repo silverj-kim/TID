@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.shimsoon.today_i_dressedup.R
 import com.shimsoon.today_i_dressedup.data.repository.UserRepository
 import com.shimsoon.today_i_dressedup.network.NetworkState
+import io.opencensus.resource.Resource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
